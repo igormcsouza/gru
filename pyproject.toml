@@ -1,0 +1,8 @@
+[project]
+name = "gru-docs"
+version = "0.0.0"
+description = "Documentation build for Gru"
+requires-python = ">=3.12"
+
+[dependency-groups]
+docs = ["mkdocs-material>=9.5.0,<10"]

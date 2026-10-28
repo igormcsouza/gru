@@ -1,0 +1,96 @@
+site_name: gru
+site_description: A strong-model orchestrator that plans and verifies, while free and cheap models do the typing. Written in plain English.
+site_author: Igor Souza
+site_url: https://igormcsouza.github.io/gru/
+
+repo_name: igormcsouza/gru
+repo_url: https://github.com/igormcsouza/gru
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.indexes
+    - navigation.path
+    - navigation.top
+    - navigation.footer
+    - navigation.instant
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.tabs.link
+    - content.action.edit
+  palette:
+    - scheme: default
+      primary: amber
+      accent: amber
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: amber
+      accent: amber
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+extra:
+  social:
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/igormcsouza/
+      name: LinkedIn
+    - icon: fontawesome/brands/github
+      link: https://github.com/igormcsouza
+      name: GitHub
+    - icon: fontawesome/solid/globe
+      link: https://igormcsouza.github.io/
+      name: Personal Website
+
+copyright: Copyright &copy; 2026 Igor Souza
+
+plugins:
+  - search
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - admonition
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Getting started:
+      - getting-started/index.md
+      - Install: getting-started/install.md
+      - Quickstart: getting-started/quickstart.md
+  - Guide:
+      - guide/index.md
+      - Commands: guide/commands.md
+      - Task cards: guide/task-cards.md
+      - Tiers and routing: guide/tiers.md
+      - Sandbox: guide/sandbox.md
+      - Budget: guide/budget.md
+      - Logs and store: guide/store.md
+      - Dev team agents: guide/dev-team.md
+  - Project:
+      - Troubleshooting: project/troubleshooting.md
+      - Contributing: project/contributing.md
+
+validation:
+  links:
+    anchors: warn

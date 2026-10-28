@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.tether/
+.claude/gru.json
+site/
+.venv/

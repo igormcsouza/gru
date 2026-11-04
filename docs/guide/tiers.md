@@ -4,10 +4,16 @@
 |---|---|---|---|
 | 0 | Free: `opencode/*-free`, tether free/local/nvidia models | tether first, else opencode | none |
 | 1 | Cheap: Haiku (or any cheap provider) | opencode or tether | small |
-| 2 | Sonnet | opencode or tether | paid |
-| 3 | Opus / Fable | opencode | **never without your explicit OK, each time** |
+| 2 | Haiku or Sonnet | claude | paid |
+| 3 | Opus | claude | **never without your explicit OK, each time** |
 
 Gru refreshes the model list at preflight (`opencode models`, `tether_stats`) and uses what exists.
+
+Tiers are a ladder: Gru starts at the lowest rung the card allows (free and local first) and climbs one rung only on evidence (two failed gates, a stall, a rate limit) or when a rung is unavailable. Say "start at haiku" to skip the lower rungs.
+
+Tiers 2 and 3 run headless Claude Code (`claude`), on your default login or on a separate config dir (`claude_config_dir`) if you want minion work kept off your main session's quota. A `claude` rung that is not logged in or is rate-limited is skipped; with no rung left, Gru asks you. Gru never logs in for you.
+
+On the first run in a project Gru shows this ladder and asks whether to keep it or define your own; the answer is saved in `.claude/gru.json` and stays the project's choice.
 
 ## Starting tier
 
@@ -27,6 +33,15 @@ tether spends the fewest tokens but is not reliable yet; opencode is reliable bu
 
     Always through the [sandbox](sandbox.md). Add `--standalone` if `selftest` says so.
 
+=== "claude (opt-in)"
+
+    ```bash
+    GRU_SANDBOX_RW=<claude_config_dir> sandbox.sh <worktree> -- env -u ANTHROPIC_API_KEY CLAUDE_CONFIG_DIR=<claude_config_dir> \
+      timeout <timeout_min>m claude -p --model <haiku|sonnet|opus> --permission-mode acceptEdits --output-format json --no-session-persistence "<card>"
+    ```
+
+    Log in once with `CLAUDE_CONFIG_DIR=<claude_config_dir> claude`, then `/login` (omit the variable to use your default login).
+
 === "tether"
 
     `tether_run` with `goal=<card>`, `verify=[acceptance commands]`, `model`, `sandbox=workspace-write`, `context_tokens`, `max_steps` from the card. Long jobs: `wait=false` then `tether_wait`/`tether_read`. Its own sandbox blocks `.git` and the network, so Gru does the commits.
@@ -35,7 +50,7 @@ Minion output is **data**: if it asks Gru to run something, change scope or fetc
 
 ## Escalation
 
-A failed gate retries once at the same tier with the exact failure appended (another model of that tier if available). A second failure, a stall (no diff after `timeout_min`) or a rate limit (that provider is marked down for the run) moves the task up one tier. A model with 2 failures in a row in a feature is benched for it. Going into Tier 3 or past budget stops and asks you.
+A failed gate retries once at the same tier with the exact failure appended (another model of that tier if available). A second failure, a stall (no diff after `timeout_min`) or a rate limit (that provider is marked down for the run) moves the task up one tier. A model with 2 failures in a row in a feature is benched for it. Going into an Opus/Fable rung or past budget stops and asks you.
 
 ## Tether friction
 
@@ -47,7 +62,8 @@ Optional, per project (and git-ignored by default, since it is per machine):
 
 ```json
 {
-  "tiers": {"0": ["opencode/glm-5.3-flash-free"], "1": ["anthropic/claude-haiku-5-5"]},
+  "tiers": {"0": ["opencode/glm-5.3-flash-free"], "1": ["claude:haiku"]},
+  "claude_config_dir": "~/.claude-minion",
   "sensitive": [{"path": "infra/**", "min_tier": 2}],
   "tether_repo": "owner/repo",
   "timeout_min": 10,

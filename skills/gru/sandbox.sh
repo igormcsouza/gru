@@ -7,6 +7,8 @@ wt="$(cd "$1" && pwd)"; shift; [ "${1:-}" = "--" ] && shift
 command -v bwrap >/dev/null || { echo "gru sandbox: bwrap missing, refusing to run unsandboxed" >&2; exit 127; }
 args=(--ro-bind / / --dev /dev --proc /proc --tmpfs /tmp --tmpfs "$HOME" --die-with-parent --chdir "$wt" --bind "$wt" "$wt")
 for p in "$HOME/.opencode" "$HOME/.config/opencode"; do [ -e "$p" ] && args+=(--ro-bind "$p" "$p"); done
+# claude harness: binary (read-only) and the claude config dir (read-write: token refresh, sessions)
+for p in "$HOME/.local/bin/claude" "$HOME/.local/share/claude"; do [ -e "$p" ] && args+=(--ro-bind "$p" "$p"); done
 for p in "$HOME/.local/share/opencode" "$HOME/.local/state/opencode" "$HOME/.cache/opencode"; do
   mkdir -p "$p"; args+=(--bind "$p" "$p")
 done

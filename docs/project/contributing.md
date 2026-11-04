@@ -4,7 +4,7 @@ Gru is a prompt (`skills/gru/SKILL.md`), one shell script (`sandbox.sh`) and fiv
 
 - No project-specific facts in the repo.
 - Verification stays deterministic and the orchestrator never trusts "done".
-- Safety defaults (sandbox, Tier 3 needs your OK, no secrets in logs) stay on.
+- Safety defaults (sandbox, an Opus/Fable rung needs your OK, no secrets in logs) stay on.
 - Keep `SKILL.md` tight: delete before you add.
 
 ```bash

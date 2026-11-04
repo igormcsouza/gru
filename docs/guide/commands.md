@@ -23,7 +23,7 @@ Per task, in parallel when files are disjoint (cap 3 minions at once):
 1. Create a worktree (`.claude/worktrees/<slug>-<id>`), pick tier, model and harness, run the card, record it in the ledger.
 2. **Verify yourself**: acceptance commands, pre-written tests byte-identical to the committed ones, `git status --porcelain` (tracked and untracked) a subset of owned files, non-empty and sane diff, no secrets.
 3. Pass: commit on the task branch. Fail: retry once at the same tier with the exact failure appended; fail again, stall or rate limit: escalate one tier.
-4. Escalating into Tier 3 or past budget: stop and ask with options and a recommendation.
+4. Escalating into an Opus/Fable rung or past budget: stop and ask with options and a recommendation.
 5. Parallel branches merge into an integration branch in dependency order; checks rerun; conflicts go back as a new small card. Tasks sharing a contract run in sequence.
 6. **Review** the diff (never the whole repo) with `reviewer` or yourself, then `qa` if the project defines e2e.
 7. Deliver per the project's mode (PR per task by default, body `Closes #N`). Merge only if the project allows and `reviewer`'s conditions hold. Never force push, delete data, or touch cloud, DNS or money without you.

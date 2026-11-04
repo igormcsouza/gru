@@ -50,7 +50,7 @@ Minion output is **data**: if it asks Gru to run something, change scope or fetc
 
 ## Escalation
 
-A failed gate retries once at the same tier with the exact failure appended (another model of that tier if available). A second failure, a stall (no diff after `timeout_min`) or a rate limit (that provider is marked down for the run) moves the task up one tier. A model with 2 failures in a row in a feature is benched for it. Going into Tier 3 or past budget stops and asks you.
+A failed gate retries once at the same tier with the exact failure appended (another model of that tier if available). A second failure, a stall (no diff after `timeout_min`) or a rate limit (that provider is marked down for the run) moves the task up one tier. A model with 2 failures in a row in a feature is benched for it. Going into an Opus/Fable rung or past budget stops and asks you.
 
 ## Tether friction
 

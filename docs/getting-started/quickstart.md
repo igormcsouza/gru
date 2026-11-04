@@ -25,7 +25,7 @@ Gru reads your repo docs first and never asks what they already answer. Then at 
 
 ## 4. Approve the plan preview
 
-`architect` produces the task plan. You see tasks, the starting tier per task, estimated minion cost and a proposed **budget**. One approval covers the plan; Gru asks again only if scope, a cap or Tier 3 changes.
+`architect` produces the task plan. You see tasks, the starting tier per task, estimated minion cost and a proposed **budget**. One approval covers the plan; Gru asks again only if scope, a cap or an Opus/Fable rung changes.
 
 ## 5. Watch it work
 

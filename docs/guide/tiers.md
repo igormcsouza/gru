@@ -9,7 +9,9 @@
 
 Gru refreshes the model list at preflight (`opencode models`, `tether_stats`) and uses what exists.
 
-Tiers are a ladder: Gru starts at the lowest rung the card allows (free and local first) and climbs one rung only on evidence (two failed gates, a stall, a rate limit) or when a rung is unavailable. Haiku and Sonnet always run through Claude Code on a second subscription (`claude_config_dir`), never opencode. If that account is not set up, not logged in (`claude auth status`), or hits its limit, Gru climbs past it. It never logs in for you. Say "start at haiku" to skip the lower rungs.
+Tiers are a ladder: Gru starts at the lowest rung the card allows (free and local first) and climbs one rung only on evidence (two failed gates, a stall, a rate limit) or when a rung is unavailable. Say "start at haiku" to skip the lower rungs.
+
+Optional: list `claude:haiku` / `claude:sonnet` in a tier to run headless Claude Code, on its own config dir (`claude_config_dir`) if you want minion work kept off your main session's quota. A `claude` rung that is not logged in or is rate-limited is skipped. Gru never logs in for you.
 
 ## Starting tier
 
@@ -29,14 +31,14 @@ tether spends the fewest tokens but is not reliable yet; opencode is reliable bu
 
     Always through the [sandbox](sandbox.md). Add `--standalone` if `selftest` says so.
 
-=== "claude (second account)"
+=== "claude (opt-in)"
 
     ```bash
     GRU_SANDBOX_RW=<claude_config_dir> sandbox.sh <worktree> -- env -u ANTHROPIC_API_KEY CLAUDE_CONFIG_DIR=<claude_config_dir> \
       timeout <timeout_min>m claude -p --model <haiku|sonnet> --permission-mode acceptEdits --output-format json --no-session-persistence "<card>"
     ```
 
-    Log in once with `CLAUDE_CONFIG_DIR=<claude_config_dir> claude`, then `/login`.
+    Log in once with `CLAUDE_CONFIG_DIR=<claude_config_dir> claude`, then `/login` (omit the variable to use your default login).
 
 === "tether"
 
@@ -59,7 +61,7 @@ Optional, per project (and git-ignored by default, since it is per machine):
 ```json
 {
   "tiers": {"0": ["opencode/glm-5.3-flash-free"], "1": ["claude:haiku"]},
-  "claude_config_dir": "~/.claude-b",
+  "claude_config_dir": "~/.claude-minion",
   "sensitive": [{"path": "infra/**", "min_tier": 2}],
   "tether_repo": "owner/repo",
   "timeout_min": 10,

@@ -15,7 +15,8 @@
 
 Running the biggest model on every keystroke is the most expensive way to ship code. Most of a feature is typing against a clear spec, and cheap models can type if the spec is tight and someone checks the work. Gru is that someone.
 
-- **Grill first.** Gru reads your repo docs, then asks sharp questions (each with a recommendation) until scope is tight. It may tell you "don't build this".
+- **Plan, grill, split.** Gru reads your repo docs, plans, then asks sharp questions (each with a recommendation) until scope is tight, and splits the work into small task cards you see and accept (agent, expected output, tier) before anything runs. It may tell you "don't build this".
+- **Minions type, Gru does not.** Cards run on minions that write to your workspace; Gru edits files itself only if you agreed first, with a reason.
 - **Tests before typing.** The strong model writes the failing acceptance tests; minions only make them pass. Gru verifies the tests are byte-identical and the diff only touches owned files.
 - **Cost ladder.** Tier 0 free models, tier 1 Haiku, tier 2 Sonnet. Tier 3 (Opus/Fable) never without your explicit OK, each time.
 - **Escalate on evidence.** A failed check retries once with the exact failure; a second failure, a stall or a rate limit moves the task up one tier.

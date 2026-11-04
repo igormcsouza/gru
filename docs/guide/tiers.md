@@ -9,7 +9,7 @@
 
 Gru refreshes the model list at preflight (`opencode models`, `tether_stats`) and uses what exists.
 
-A tier is an ordered list and Gru takes the first entry that is available. `claude:haiku` / `claude:sonnet` entries run Claude Code on a second subscription (`claude_config_dir`), so cheap and mid work does not spend your main session's quota. If that account is not set up, not logged in (`claude auth status`), or hits its limit, Gru skips to the next entry (for example `opencode:anthropic/claude-haiku-5-5`). It never logs in for you.
+Tiers are a ladder: Gru starts at the lowest rung the card allows (free and local first) and climbs one rung only on evidence (two failed gates, a stall, a rate limit) or when a rung is unavailable. Haiku and Sonnet always run through Claude Code on a second subscription (`claude_config_dir`), never opencode. If that account is not set up, not logged in (`claude auth status`), or hits its limit, Gru climbs past it. It never logs in for you. Say "start at haiku" to skip the lower rungs.
 
 ## Starting tier
 
@@ -58,7 +58,7 @@ Optional, per project (and git-ignored by default, since it is per machine):
 
 ```json
 {
-  "tiers": {"0": ["opencode/glm-5.3-flash-free"], "1": ["claude:haiku", "opencode:anthropic/claude-haiku-5-5"]},
+  "tiers": {"0": ["opencode/glm-5.3-flash-free"], "1": ["claude:haiku"]},
   "claude_config_dir": "~/.claude-b",
   "sensitive": [{"path": "infra/**", "min_tier": 2}],
   "tether_repo": "owner/repo",

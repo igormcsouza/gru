@@ -63,11 +63,11 @@ Default tiers (override per project in `.claude/gru.json`: `{"tiers": {...}, "se
 | Tier | Models | Harness | Spend |
 |---|---|---|---|
 | 0 | free: `opencode/*-free` (e.g. `deepseek-v4.1-flash-free`, `glm-5.3-flash-free`, `nemotron-3-ultra-free`), tether free/local/nvidia models | tether first (we want its mistakes), else opencode | none |
-| 1 | cheap: `anthropic/claude-haiku-5-5` (also any cheap provider) | opencode or tether | paid, small |
-| 2 | `anthropic/claude-sonnet-5-5` | opencode or tether | paid |
+| 1 | cheap: Haiku (also any cheap provider) | Haiku always via `claude` (second account); other cheap models opencode or tether | paid, small |
+| 2 | Sonnet | always via `claude` (second account) | paid |
 | 3 | Opus / Fable | opencode | **never without the PO's explicit OK, each time** |
 
-A tier is an **ordered list**; take the first entry that is available. Entries `claude:<haiku|sonnet>` run Claude Code on a **second subscription** (`claude_config_dir`), so Tier 1/2 work spends that quota instead of the main session's. An entry is skipped, and the next one (e.g. `opencode:anthropic/claude-haiku-5-5`) used, when `claude_config_dir` is unset, the dir is not logged in (`env -u ANTHROPIC_API_KEY CLAUDE_CONFIG_DIR=<dir> claude auth status` must say `loggedIn: true`, `authMethod` not `api_key`), or a run reports a usage/rate limit (mark it down for the run). Never fall back by logging in or changing accounts yourself.
+Tiers are a **ladder**: start at the lowest tier the card allows (free/local first, to save tokens) and climb one rung only on evidence (failed gate twice, stall, rate limit) or when a rung is unavailable. Within a tier, entries are ordered; take the first available. Haiku and Sonnet **always run through the `claude` harness** on a second subscription (`claude_config_dir`), never opencode. A `claude` rung is unavailable, and Gru climbs past it, when `claude_config_dir` is unset, the dir is not logged in (`env -u ANTHROPIC_API_KEY CLAUDE_CONFIG_DIR=<dir> claude auth status` must say `loggedIn: true`, `authMethod` not `api_key`), or a run reports a usage/rate limit (mark it down for the run). Never log in or switch accounts yourself. The PO may say "start at haiku" (or sonnet) to skip lower rungs for the feature or a task; honor it, and still climb from there.
 
 Start: easy+low = 0, medium = 0 or 1, hard or high-risk = 1 or 2. Honor `sensitive` paths: free endpoints may log or train on code, so never send those below their `min_tier`, and never put secrets or `.env*` content in a brief.
 

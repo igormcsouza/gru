@@ -12,7 +12,7 @@
 
 A request can be a change, a question, a clarification or research. A **small** one (a question, a lookup, a one-file tweak) goes to one minion and you get the answer back. A **large or risky** one runs the pipeline:
 
-1. **Log.** Slug is kebab-case; Gru refuses if `active/<slug>.md` exists (use `resume`). The log is created from a template, and anything this session already did is backfilled with a `(backfilled)` prefix, never invented.
+1. **Log.** `/gru new <name>` always starts a new session log. `/gru <request>` with no active log creates one for you (slug from the request); with one already active it continues it. Slug is kebab-case; Gru refuses if `active/<slug>.md` exists (use `resume`). The log is created from a template, and anything this session already did is backfilled with a `(backfilled)` prefix, never invented.
 2. **Plan and grill** the PO (you) on the edge cases and issues the plan brings.
 3. **Split** into small, self-contained [task cards](task-cards.md) (`swe`, `qa`, `review`, `research`, `docs`) with acceptance tests written first. A tier too weak for a card is skipped; a card no tier fits is listed for you instead of dispatched.
 4. **Show the tasks**: id, agent, expected output, harness and model, tier, estimated cost, and the budget. You accept.

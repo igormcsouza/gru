@@ -8,16 +8,14 @@ from conftest import ROOT, read
 
 
 def test_workflows_use_no_secrets_and_no_models():
-    for wf in [*(ROOT / ".github" / "workflows").glob("*.yml"), *(ROOT / "ci").glob("*.yml")]:
+    for wf in (ROOT / ".github" / "workflows").glob("*.yml"):
         text = read(wf)
         assert set(re.findall(r"secrets\.([A-Za-z_]+)", text)) <= {"GITHUB_TOKEN"}, wf.name
         assert not re.search(r"anthropic|claude|evals/|openai", text, re.I), f"{wf.name} must not call models"
 
 
 def test_ci_runs_the_static_suite_on_pull_requests():
-    # the template in ci/ is what gets installed as .github/workflows/ci.yml
-    live = ROOT / ".github" / "workflows" / "ci.yml"
-    ci = read(live if live.exists() else ROOT / "ci" / "ci.yml")
+    ci = read(ROOT / ".github" / "workflows" / "ci.yml")
     assert "pull_request" in ci and "pytest" in ci and "mkdocs build --strict" in ci
 
 

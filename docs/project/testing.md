@@ -4,7 +4,7 @@ Gru is mostly English, so testing it has two very different halves. They are kep
 
 ## CI: static, offline, deterministic
 
-`make test` (what the CI workflow runs on every PR; the workflow lives in `ci/ci.yml`, copy it to `.github/workflows/ci.yml` if it is not there yet) needs **no network, no secrets and no model calls**. A test that cannot be deterministic does not belong here.
+`make test` (what the CI workflow runs on every PR; the workflow is `.github/workflows/ci.yml`) needs **no network, no secrets and no model calls**. A test that cannot be deterministic does not belong here.
 
 | Suite | Checks |
 |---|---|

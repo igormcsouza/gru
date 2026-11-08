@@ -9,6 +9,10 @@ Gru is a skill (Markdown prompts: a small `SKILL.md` that loads `skills/gru/ref/
 - **Safety stays default-on.** Minions run sandboxed; outward-facing actions need the user's OK; no secrets in logs or briefs. Do not weaken these.
 - **Keep SKILL.md tight.** It is read on every run; put step detail in `ref/` so a run loads only what it needs. Delete before you add.
 
+## Tests
+
+`make test` is static, offline and deterministic: it is what CI runs and what you run before every PR. Model-backed checks (`make quiz`, `make scenarios`) are local-only and cost a little; see [docs/project/testing.md](docs/project/testing.md). Prompt changes should come with a quiz question or a scenario when a real run showed the problem.
+
 ## Setup and checks
 
 ```bash

@@ -93,6 +93,7 @@ nav:
       - Role agents: guide/dev-team.md
   - Project:
       - Troubleshooting: project/troubleshooting.md
+      - Testing: project/testing.md
       - Contributing: project/contributing.md
 
 validation:

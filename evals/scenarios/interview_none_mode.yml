@@ -1,0 +1,26 @@
+name: interview_none_mode
+max_cost: 1.5
+turns:
+  - say: "/gru what happens when div() gets b=0, and is there a test for it?"
+    asserts:
+      - {type: result_matches, regex: "interview|setup|round"}
+      - {type: no_path, path: ".gru"}
+      - {type: no_path, path: ".claude/gru"}
+      - {type: no_path, path: "AGENTS.md"}
+      - {type: no_tool, names: [Agent, Task]}
+  - say: >-
+      1 none. 2 keep the defaults. 3 claude. 4 use whichever sandbox works here, no limits.
+      Project facts: take what you detect; one branch per card, I merge, no remote. QA and review: your defaults,
+      no extra checks. Take defaults for everything else, skip any 'you' questions, and show me the summary.
+    asserts:
+      - {type: no_path, path: ".gru"}
+      - {type: no_path, path: "AGENTS.md"}
+  - say: "ok, write them. Skip the selftest and do not run my question yet."
+    asserts:
+      - {type: file_contains, path: ".gru/local.yml", regex: "^versioning: none"}
+      - {type: file_equals, path: ".gru/.gitignore", text: "*"}
+      - {type: file_contains, path: ".gru/project.md", regex: "(?i)make test"}
+      - {type: no_path, path: ".gru/gru.yml"}
+      - {type: no_path, path: "AGENTS.md"}
+      - {type: git_clean}
+      - {type: no_tool, names: [Agent, Task]}

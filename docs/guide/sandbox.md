@@ -29,7 +29,7 @@ sandbox.sh <worktree> -- <command...>
 - Own pid, ipc and uts namespaces and a new session.
 - The network stays on, because the model API needs it. `GRU_SANDBOX_NET=private` gives an empty loopback-only network instead: Gru uses it for commands **it** runs (gate, checks, e2e), so parallel cards never collide on ports.
 - A git worktree's main repo is exposed read-only and its git dir writable.
-- `GRU_SANDBOX_RW="p1:p2"` / `GRU_SANDBOX_RO="p1:p2"` add writable / read-only paths. Without `bwrap` it exits 127 and refuses to run.
+- `GRU_SANDBOX_RW="p1:p2"` / `GRU_SANDBOX_RO="p1:p2"` add writable / read-only paths. In cloud containers Claude Code's shell tool may need `/sys/fs/cgroup` writable; `selftest` detects it and, with your OK, records it as `sandbox_rw` in `local.yml`. Without `bwrap` it exits 127 and refuses to run.
 
 tether minions use tether's own `workspace-write` sandbox, which blocks `.git` and the network.
 

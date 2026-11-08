@@ -1,7 +1,7 @@
 # Plan: grill, cards, preview
 
 ## 0. Size the request
-- **Small** (a question, a lookup, a one-file tweak): make it one XS card, run it, relay the answer. No grill, no preview unless it costs more than expected.
+- **Small** (a question, a lookup, a one-file tweak): make it one XS card (still a card file under `cards/`), run it through the harness recipe in the sandbox (never the Agent/Task tool), relay the answer with the hand-back. A question card is **read-only**: no file changes, no extra tests, unless the user asked for them (offer them as a follow-up instead). No grill, no preview unless it costs more than expected. Log it in one line.
 - Anything else: the full flow below. A session log is created now (slug = kebab-case of the request, refuse if `active/<slug>.md` exists and suggest `resume`; backfill earlier work prefixed `(backfilled)`, never invent).
 
 ## 1. Grill
@@ -46,7 +46,7 @@ Guess the T-shirt size from scope, files touched, risk and unknowns:
 | M | several files or real design choices | mid |
 | L | cross-cutting, tricky logic, migrations | strong |
 | XL | probably two cards: split unless it is truly indivisible | strong |
-`risk: high` (security, data, money, migrations) never lowers a slot and raises qa/reviewer to `strong`. Then fill the other roles from the **Role matrix** (`ref/run.md`). If calibration (`ref/ops.md`) has a suggestion for a size, show it as a note; the caller decides.
+`risk: high` (security, data, money, migrations) never lowers a slot and raises qa/reviewer to `strong`. Then fill the other roles from the **Role matrix in `SKILL.md`**, exactly (S means weak swes with mid planner, qa and reviewer; do not upgrade roles on your own). If calibration (`ref/ops.md`) has a suggestion for a size, show it as a note; the caller decides.
 
 ## 4. Preview (the caller reviews cards and the execution plan)
 Show one table, one row per card: id, title, size, risk, depends_on, swe/planner/qa/reviewer slots and models, harness, est tokens and cost, DoD count, and the **sandbox per stage** where it is not the default (e.g. `qa: docker`). Below it:

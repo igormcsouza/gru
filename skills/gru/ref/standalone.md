@@ -18,9 +18,11 @@ Options the user may add in words: a size (`as L`), a slot (`with strong`), `no 
 
 ## 2. Build the ad-hoc card
 - **Objective**: from the PR title/body and the linked issue. **Definition of done**: the issue's acceptance criteria or the PR's checklist, rewritten as checkable lines. If there are none, propose lines from the description and diff, show them, and take one confirmation; if the user declines, mark the run `no DoD supplied`: the reviewer then checks conventions, correctness and smells only, and says the DoD could not be checked.
-- **Size** from the diff (files, lines, risk), shown and overridable. **Roles** from the matrix in `ref/run.md` using that size. A human-authored PR counts as the size's swe slot; the L/XL "caller sign-off" flag applies only when a strong minion authored it.
+- **Size** from the diff (files, lines, risk), shown and overridable. **Roles** from the matrix in `SKILL.md` using that size. A human-authored PR counts as the size's swe slot; the L/XL "caller sign-off" flag applies only when a strong minion authored it.
 - `needs` for qa: from the card, else detect compose/e2e config, else ask. Sandbox per stage as configured (`ref/sandbox.md`); start the services if needed.
 - Prerequisites by stage: `qa`/`review`/`check` need only the code. `gate` needs pinned tests (else it only runs checks). `build` needs a plan and pinned tests (offer to run `plan` and `tests` first). `tests` needs a plan (or a small card). `plan` needs an objective. Missing prerequisite: say so and offer to run it; never skip silently.
+
+Tell the minions exactly where they are: the code under review is the **checked-out HEAD in their cwd**, the base is `<base>`, the change is `git diff <base>...HEAD`; they must not check out other branches or judge `main`.
 
 ## 3. Expectations and extra checks
 Read the project's QA and review **expectations** and **extra checks** from the project notes (`AGENTS.md` section, or `<store>/project.md` in `versioning: none`). Put them in the role briefs. For each extra check with a `source` tool (Asana, Jira, Slack, ...): **you gather the evidence yourself** with the tools your session has (the minion's harness usually lacks them), paste only the needed text (never tokens or secrets), and give it to the reviewer or qa as quoted data. If you have no tool for it, mark the check `unverified` and ask the user whether to continue. Never invent evidence.

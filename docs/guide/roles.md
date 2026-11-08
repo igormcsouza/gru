@@ -37,10 +37,10 @@ Every role runs on a harness chosen in the [interview](setup.md): **Claude Code*
 
     ```bash
     GRU_SANDBOX_RW=<claude_config_dir> sandbox.sh <worktree> -- env -u ANTHROPIC_API_KEY CLAUDE_CONFIG_DIR=<claude_config_dir> \
-      timeout <timeout_min>m claude -p --model <model> --permission-mode acceptEdits --output-format json --no-session-persistence "<brief + card>"
+      timeout <timeout_min>m claude -p --model <model> --permission-mode acceptEdits --allowedTools "<tools>" --output-format json --no-session-persistence "<brief + card>"
     ```
 
-    Uses your login or a separate `claude_config_dir` so minion work stays off your main session's quota. Gru never logs in for you.
+    `<tools>` is `Bash Read Write Edit Glob Grep` for swe and qa, and `Bash Read Glob Grep` for planner and reviewer; the sandbox is the boundary. The sandbox hides `$HOME`, so use a separate `claude_config_dir` (log in there once), or a token in the environment. Your login in `claude_config_dir` so minion work stays off your main session's quota. Gru never logs in for you.
 
 === "opencode"
 

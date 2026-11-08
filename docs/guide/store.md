@@ -20,9 +20,9 @@ Each feature has a Markdown log, `active/<slug>.md` while open and `archive/<slu
 Resolved once per session, first match wins:
 
 1. a path named by a `gru store:` (or legacy `feature-context store:`) line in `AGENTS.md`/`CLAUDE.md`
-2. `<root>/.claude/gru/` if it exists
+2. `<root>/.gru/` if it exists, else `<root>/.claude/gru/` if it exists (the older default)
 3. legacy `<root>/.claude/feature-context/` or `~/.claude/projects/<repo>/feature-context/`
-4. otherwise Gru creates `<root>/.claude/gru/` and tells you
+4. otherwise Gru creates `<root>/.gru/` and tells you. The default is not under `.claude/` because Claude Code can block writes there as sensitive
 
 In git, `<root>` is the **main repo**, never a worktree. ## What is versioned
 

@@ -2,20 +2,8 @@
 
 Each role is a separate minion session started through the harness (`ref/harnesses.md`) with the role brief (`agents/<role>.md`, body only) plus the card. Roles never share a session. Run each stage in the sandbox backend chosen for it (`ref/sandbox.md`), starting a card's services first if it needs them. Write stage changes to the log immediately.
 
-## Role matrix (a rule)
-Order: `weak < mid < strong`. The swe slot comes from the card's size (`size_slots`). Everything else follows it:
-
-| Size | swe (tests and build) | planner | qa | reviewer |
-|---|---|---|---|---|
-| XS, S | weak | mid | mid | mid |
-| M | mid | strong | strong | strong |
-| L, XL | strong | strong | strong | strong, plus caller sign-off* |
-
-- Planner is **stronger than the swe**, and at least `mid` (so a weak swe gets a mid planner).
-- qa and reviewer are **stronger than the swe**; `risk: high` makes them `strong`.
-- *Nothing is stronger than a strong swe. Use `strong_alt` (another model family) for the reviewer if configured; otherwise run the strong reviewer anyway and mark the card **needs caller sign-off** at the review stage: the caller (human or agent) must confirm before it counts as done.
-- If a user override or a `bump` changes the swe slot, recompute the row. A matrix row that cannot be satisfied with the configured slots is shown in the preview, never silently relaxed.
-- The tests swe and the build swe are two sessions, same slot, ideally different models when two exist in that slot.
+## Role matrix
+The matrix is in `SKILL.md` (always loaded). Extra rules: the tests swe and the build swe are separate sessions of the same slot, ideally different models when two exist in that slot. If a user override or a `bump` changes the swe slot, recompute the row. L/XL sign-off: when no `strong_alt` exists, mark the card **needs caller sign-off** at the review stage; the caller must confirm before it counts as done.
 
 ## Stages
 `planned > plan > tests > build > gate > qa+review > done`, with `replan`, `needs-input` and `parked` as side states.

@@ -1,7 +1,7 @@
 # Ops: status, steer, resume, done, store, logging, budget, calibration
 
 ## Store
-Resolve once per session, first match wins: (1) path in a `gru store:` / `feature-context store:` line of `AGENTS.md`/`CLAUDE.md`; (2) `<root>/.claude/gru/` if it exists; (3) legacy `<root>/.claude/feature-context/` or `~/.claude/projects/<repo>/feature-context/`; (4) create `<root>/.claude/gru/` and tell the user. In git use the **main repo** root, never a worktree: `dirname "$(git rev-parse --path-format=absolute --git-common-dir)"`.
+Resolve once per session, first match wins: (1) path in a `gru store:` / `feature-context store:` line of `AGENTS.md`/`CLAUDE.md`; (2) `<root>/.gru/` if it exists, else `<root>/.claude/gru/` if it exists (older default); (3) legacy `<root>/.claude/feature-context/` or `~/.claude/projects/<repo>/feature-context/`; (4) create `<root>/.gru/` and tell the user. The default is `.gru/` and not `.claude/` because Claude Code can block writes under `.claude/` as sensitive; if a write to the store is blocked, stop and offer another path instead of working around it. In git use the **main repo** root, never a worktree: `dirname "$(git rev-parse --path-format=absolute --git-common-dir)"`.
 ```
 <store>/.gitignore                   ignores everything except itself and gru.yml (team mode); just `*` (none mode)
 <store>/gru.yml                      team policy (the only versioned file; absent in none mode)

@@ -2,6 +2,12 @@
 
 Run this on the first `/gru` in a project, the first time with this Gru version (`version` < 2 or only a legacy `.claude/gru.json`), and on `/gru setup`. The goal is to know **the human and the project** so every role works the way they expect. Pre-fill everything the repo already answers (Makefile, `package.json`, `pyproject.toml`, CI, `git log`, `AGENTS.md`, `gh repo view`) and ask only the rest. Max 4 questions per round, each with a default; never guess. Show a short summary at the end and ask for a correction before writing.
 
+## Rules for the interview (read first)
+- **Complete.** Sections 0 to 6 below each need an answer the user saw, or an explicit "defaults for the rest" from them. Do not skip a section because it seems unneeded; pre-filled answers are shown, not assumed. Do not start the grill and do not write any file until all are done.
+- **Rounds.** At most 4 questions per round, as many rounds as needed. Suggested: round 1 = 0, 1, harness, limits; round 2 = OS/sandbox and the project facts; round 3 = QA/review expectations (4b) and "you" (5). Always ask 4b and 5, even when everything else was pre-filled.
+- **Check before offering.** Run `command -v claude tether opencode bwrap docker`, `bwrap --version`, and `docker info` (the daemon must answer, not just the CLI). Offer only what works; say plainly what is missing and how to install it. If the user picks a harness that is not installed, say so and fall back to `claude` for now.
+- **Confirm before writing.** Show the full summary (every answer, every file you will write and where) and wait for the user's "ok" or corrections. Only then write.
+
 If a legacy `.claude/gru.json` exists, migrate `claude_config_dir`, `sensitive` (map `min_tier` 0-1 to `weak`, 2 to `mid`, 3 to `strong`), `tether_repo`, `timeout_min`, `context`, `verified`; drop `tiers`. Tell the user the tier ladder is gone.
 
 ## 0. Does Gru leave files in this repo?
@@ -21,7 +27,7 @@ Detect the OS (`uname -s`; on Linux check `/proc/version` for WSL). Linux and WS
 Ask whether any chosen model is **local** (e.g. a Qwen on this machine) or **rate-limited** (e.g. NVIDIA free tier). Record each as a `limits` entry. These force sequential or throttled scheduling, and the plan preview shows it.
 
 ## 4. The project (written to the project's `AGENTS.md`/`CLAUDE.md`, section `## Dev team specifics` for code, `## Feature context` otherwise; with `versioning: none` written to `<store>/project.md` instead)
-One short line each: stack and layout; check commands (lint, types, tests, coverage gate); e2e/manual QA; branch, commit and PR style and **who merges**; delivery mode (PR per card, or waves/integration branch); **what "done" means in this team** (this feeds every definition of done); risky areas and hard stops (what always needs the user); design docs to read; where the **store** lives (`gru store:` line, default `<root>/.claude/gru/`; no line in `none` mode). Non-code projects: only a one-line project description and the store path.
+One short line each: stack and layout; check commands (lint, types, tests, coverage gate); e2e/manual QA; branch, commit and PR style and **who merges**; delivery mode (PR per card, or waves/integration branch); **what "done" means in this team** (this feeds every definition of done); risky areas and hard stops (what always needs the user); design docs to read; where the **store** lives (`gru store:` line, default `<root>/.gru/`; no line in `none` mode). Non-code projects: only a one-line project description and the store path.
 
 ## 4b. What you expect from QA and review (project-specific, not general)
 Ask in the user's words, per stage, and write it with the project facts (same place as section 4):
@@ -50,6 +56,7 @@ slots:
   strong_alt: null            # optional: other-family strong model, for reviewing strong swes
 minion_harness: claude        # claude | tether | opencode | ...
 size_slots: {XS: weak, S: weak, M: mid, L: strong, XL: strong}   # swe slot per size (calibration may suggest edits)
+sandbox_rw: []                # extra writable paths inside the bwrap sandbox, only with the user's OK (e.g. /sys/fs/cgroup in cloud containers)
 limits:                       # glob on harness:model
   - {match: "tether:ollama/*", max_parallel: 1, kind: local}
   - {match: "tether:nvidia/*", max_parallel: 2, rpm: 40}
@@ -73,4 +80,4 @@ permissions: {file_tether_issues: ask, post_reviews: ask}   # ask | allow
 `~/.config/gru/profile.yml`: `versioning` (default for new projects), `autonomy`, `questions` (`batched|one`), `verbosity`, `notify`, `claude_config_dir`, plus optional default `slots`/`minion_harness`/`limits` for new projects.
 
 ## selftest
-Prove each configured slot and harness works (a few cents). In a throwaway worktree run one trivial XS card ("create `hello.txt` containing `ok`") through every distinct slot+harness pair in `local.yml`, via `sandbox.sh` where it applies (`ref/harnesses.md`). Check and report in <=8 lines: the cwd is respected, the sandbox hides `~/.ssh` and writes outside the worktree fail, usage numbers are reported, the model name is valid, auth works, and whether `opencode run` needs `--standalone`. Record under `verified` (harness, model, date, usage-reporting yes/no), then delete the worktree. Add the sandbox checks from `ref/sandbox.md`. A pair that fails: say why, offer to fall back to `claude` for that slot, never silently.
+Prove each configured slot and harness works (a few cents). In a throwaway worktree run one trivial XS card ("create `hello.txt` containing `ok`") through every distinct slot+harness pair in `local.yml`, via `sandbox.sh` where it applies (`ref/harnesses.md`). Check and report in <=8 lines: the cwd is respected, the sandbox hides `~/.ssh` and writes outside the worktree fail, usage numbers are reported, the model name is valid, auth works, and whether `opencode run` needs `--standalone`. **Also make each `claude` slot run a shell command** ("use the Bash tool to run `python3 -c 'print(6*7)'` and reply with the output"): creating a file does not prove the minion can run its tests. If it fails with `EROFS` on `/sys/fs/cgroup` (seen in cloud containers, where Claude Code's shell tool creates a cgroup), explain that fixing it means making `/sys/fs/cgroup` writable inside the sandbox, ask the user, and on yes record `sandbox_rw: [/sys/fs/cgroup]` in `local.yml`. Any other failure: report it and stop. Record under `verified` (harness, model, date, usage-reporting yes/no, shell yes/no), then delete the worktree. Add the sandbox checks from `ref/sandbox.md`. A pair that fails: say why, offer to fall back to `claude` for that slot, never silently.

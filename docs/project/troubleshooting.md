@@ -16,6 +16,10 @@
 
 **`NVIDIA_API_KEY` warning.** Export it in `~/.profile`; the installer only checks that it exists.
 
+**A minion cannot run shell commands (`EROFS` on `/sys/fs/cgroup`, or "requires approval").** The first means Claude Code's shell tool needs `/sys/fs/cgroup` writable inside the sandbox (seen in cloud containers): run `/gru selftest` and accept the `sandbox_rw` entry. The second means the recipe lacks `--allowedTools`; update Gru.
+
+**Writes under `.claude/` are blocked.** Claude Code can treat `.claude/` as sensitive. Gru's default store is `.gru/` for this reason; point `gru store:` somewhere else if needed.
+
 **A minion hangs or loops.** Gru enforces `timeout_min` (default 10) and treats a stall as a failed gate. Run `/gru selftest` to see whether opencode needs `--standalone` here.
 
 **A tether run failed.** Expected sometimes. If it was tether's fault, Gru logs a `Tether friction` entry, reruns that stage on Claude Code and asks before filing an issue on the tether repo. If it was not (bad card, auth, quota), it is handled as a normal failure.

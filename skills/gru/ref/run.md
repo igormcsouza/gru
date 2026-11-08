@@ -1,6 +1,6 @@
 # Run: the pipeline per card
 
-Each role is a separate minion session started through the harness (`ref/harnesses.md`) with the role brief (`agents/<role>.md`, body only) plus the card. Roles never share a session. Write stage changes to the log immediately.
+Each role is a separate minion session started through the harness (`ref/harnesses.md`) with the role brief (`agents/<role>.md`, body only) plus the card. Roles never share a session. Run each stage in the sandbox backend chosen for it (`ref/sandbox.md`), starting a card's services first if it needs them. Write stage changes to the log immediately.
 
 ## Role matrix (a rule)
 Order: `weak < mid < strong`. The swe slot comes from the card's size (`size_slots`). Everything else follows it:
@@ -47,7 +47,7 @@ Stop that card (others continue if independent) and ask, with options and a reco
 
 ## Scheduling and limits
 Run cards in parallel only if all hold: no `depends_on` between them, disjoint `files_owned`, total running <= `max_parallel`, and no `limits` rule is exceeded. A `limits` entry matching `harness:model` caps concurrent runs of that model (`max_parallel`) and, with `rpm`, spaces requests; `kind: local` models (e.g. a local Qwen) run one at a time and are never run next to other heavy local work. Stages of one card are sequential. Print the waves in the preview; if a limit changes the schedule mid-run (rate limit hit), mark that model down for the run, queue its cards, tell the caller once.
-Merge parallel card branches into one integration branch in dependency order, rerun the project checks on the result, and send conflicts back as a new small card.
+Cards that need the same fixed host port or a shared service instance are sequenced, or each gets its own compose project. Merge parallel card branches into one integration branch in dependency order, rerun the project checks on the result, and send conflicts back as a new small card.
 
 ## Hand-back to the caller
 When all cards are done, parked or waiting, write `<store>/active/<slug>/handback.md`, show it, and (if the caller is an agent) return it as the final message. Format:

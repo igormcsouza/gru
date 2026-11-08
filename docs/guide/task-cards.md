@@ -8,6 +8,7 @@ A minion sees no conversation, so each card is self-contained. Strong-model toke
 | **Objective** | what changes, for whom, why |
 | **Definition of done** | a checklist; every line names its check (a test, a command, or what the reviewer inspects) |
 | `files_owned`, `depends_on`, `resources` | scheduling: disjoint files, order, rate-limited or local models |
+| `needs` | services it needs while testing (database, browser); drives the QA [sandbox](sandbox.md) |
 | **Context** | at most 10 lines of the small whole picture |
 | **Reading list** | exact files to read; "do not explore the repo" |
 | **Conventions** | the few project lines that apply, pasted in |
@@ -22,4 +23,4 @@ Gru guesses the size, you decide in the preview (or later with `/gru steer <card
 
 ## Preview
 
-Before anything runs you see a table (card, size, risk, dependencies, the model per role, harness, estimated tokens and cost), the **schedule** (what runs together, and why anything is sequential), the budget, and flags (L/XL sign-offs, calibration notes). Change anything; your decision wins.
+Before anything runs you see a table (card, size, risk, dependencies, the model per role, harness, the sandbox per stage, estimated tokens and cost), the **schedule** (what runs together, and why anything is sequential), the budget, and flags (L/XL sign-offs, cards needing services the sandbox cannot give, calibration notes). Change anything; your decision wins.

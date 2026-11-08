@@ -15,6 +15,7 @@ Card file `<store>/active/<slug>/cards/<id>.md`:
 # <id> <title>
 - size: XS|S|M|L|XL      risk: low|high      kind: swe | docs | research
 - depends_on: [ids]      files_owned: [paths]      resources: [harness:model needing a limit]
+- needs: [services it needs while testing, e.g. postgres, browser]   (drives the qa sandbox)
 ## Objective
 One paragraph: what changes for whom, and why.
 ## Definition of done
@@ -48,8 +49,8 @@ Guess the T-shirt size from scope, files touched, risk and unknowns:
 `risk: high` (security, data, money, migrations) never lowers a slot and raises qa/reviewer to `strong`. Then fill the other roles from the **Role matrix** (`ref/run.md`). If calibration (`ref/ops.md`) has a suggestion for a size, show it as a note; the caller decides.
 
 ## 4. Preview (the caller reviews cards and the execution plan)
-Show one table, one row per card: id, title, size, risk, depends_on, swe/planner/qa/reviewer slots and models, harness, est tokens and cost, DoD count. Below it:
+Show one table, one row per card: id, title, size, risk, depends_on, swe/planner/qa/reviewer slots and models, harness, est tokens and cost, DoD count, and the **sandbox per stage** where it is not the default (e.g. `qa: docker`). Below it:
 - **Schedule**: waves of cards that run together, and why anything is sequential (shared files, dependencies, a `limits` match such as a local model or a rate-limited provider).
 - **Budget**: paid-token warn/stop (defaults from `gru.yml`, editable; the preview's numbers apply to this feature only), wall-clock cap, max replans (default 2 per card).
-- **Flags**: L/XL cards whose review needs the caller's sign-off (no stronger model exists), cards no configured model fits, calibration notes.
+- **Flags**: cards that need services the chosen sandbox cannot give (e.g. Linux without Docker), L/XL cards whose review needs the caller's sign-off (no stronger model exists), cards no configured model fits, calibration notes.
 The caller may change a size, slot, DoD, order or drop a card. **Their decision wins**; recompute the row and show only what changed. Wait for an explicit accept; ask again only if scope, a cap or a slot above the approved one changes. Then read `ref/run.md` and `ref/harnesses.md`.

@@ -3,15 +3,17 @@
 ## Store
 Resolve once per session, first match wins: (1) path in a `gru store:` / `feature-context store:` line of `AGENTS.md`/`CLAUDE.md`; (2) `<root>/.claude/gru/` if it exists; (3) legacy `<root>/.claude/feature-context/` or `~/.claude/projects/<repo>/feature-context/`; (4) create `<root>/.claude/gru/` and tell the user. In git use the **main repo** root, never a worktree: `dirname "$(git rev-parse --path-format=absolute --git-common-dir)"`.
 ```
-<store>/.gitignore                   ignores everything except itself and gru.yml
-<store>/gru.yml                      team policy (the only versioned file)
-<store>/local.yml                    your models, harness, limits, calibration (ignored)
+<store>/.gitignore                   ignores everything except itself and gru.yml (team mode); just `*` (none mode)
+<store>/gru.yml                      team policy (the only versioned file; absent in none mode)
+<store>/local.yml                    your models, harness, limits, sandbox, calibration (ignored)
+<store>/project.md                   project notes in none mode (ignored)
+<store>/images/                      Dockerfile, image.yml for the docker sandbox (ignored)
 <store>/active/<slug>.md             feature log
 <store>/active/<slug>/cards/<id>.md  card, <id>.plan.md  its plan
 <store>/active/<slug>/handback.md    result for the caller
 <store>/archive/...                  the same, after done
 ```
-**Logs are never versioned.** On creating a store write `<store>/.gitignore` containing `*`, `!.gitignore`, `!gru.yml` (so logs, cards, plans, hand-backs, archive and `local.yml` are ignored wherever the store lives, even a custom path). Never `git add` anything but `gru.yml` there. No secrets in anything stored. Consequence: a fresh container or clone has no logs, so `resume` finds nothing there; for ephemeral environments point `gru store:` at a persistent path outside the repo. Durable facts belong in the PR, `AGENTS.md` (via `done`) or the hand-back.
+**Logs are never versioned.** On creating a store write `<store>/.gitignore` containing `*`, `!.gitignore`, `!gru.yml` (so logs, cards, plans, hand-backs, archive, images and `local.yml` are ignored wherever the store lives, even a custom path). In `versioning: none` write just `*` (it ignores itself too) and do not create `gru.yml`; read its keys from `local.yml`, and never touch the repo's tracked files for Gru's sake (no `AGENTS.md` edits, no `gru store:` line, no `.gitignore` edits, no Gru mention in commits, branches or PRs). Never `git add` anything but `gru.yml` there. No secrets in anything stored. Consequence: a fresh container or clone has no logs, so `resume` finds nothing there; for ephemeral environments point `gru store:` at a persistent path outside the repo. Durable facts belong in the PR, `AGENTS.md` (via `done`) or the hand-back.
 
 ## status [feature]
 Default: the active feature (if several, list them and ask). Show a table, one row per card, then 4 lines at most below it.
@@ -36,7 +38,7 @@ Always confirm what changed in one line and log it. Steering never exceeds an ap
 List `active/*.md` (slug, goal, status, updated, top 3 next steps, budget used). Confirm which. Read it fully, summarize in <=10 lines, then **reconcile minions**: for each in-flight card check its worktree/branch/session and either re-attach or restart that stage at its recorded slot. Resume logging.
 
 ## done
-1. Write the wrap-up (outcome, decisions, PRs, debt, lessons, cost by slot vs what it solved, calibration changes), and offer to copy durable lessons into the project's `AGENTS.md` (user approves the text).
+1. Write the wrap-up (outcome, decisions, PRs, debt, lessons, cost by slot vs what it solved, calibration changes), and offer to copy durable lessons into the project's `AGENTS.md` (user approves the text; in `none` mode append them to `<store>/project.md` instead and never offer `AGENTS.md`).
 2. **Clean up leftovers**, listing first and acting only on what this feature created (the log lists them): kill minion processes still running (`pgrep -af "opencode run|bwrap"` filtered to the feature's worktrees; `tether_list` for open sessions); `git worktree remove` each feature worktree whose branch is merged or pushed, then `git worktree prune`; delete merged local task branches (`git branch -d`, never `-D`, never remote); remove scratch files and the selftest worktree. Anything with unpushed or unmerged work is **kept** and listed with its path. Never delete by glob; remove by recorded path.
 3. Set `Status: done`, `Closed`, move the log and its folder to `archive/`, stop logging, report what was removed and what was kept.
 

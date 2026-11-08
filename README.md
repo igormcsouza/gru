@@ -23,7 +23,8 @@ Running the biggest model on every keystroke is the most expensive way to ship, 
 - **Asks for help.** Ambiguity, sign-offs on L/XL reviews, budget caps and broken harnesses come to the caller.
 - **Respects your hardware and quotas.** Local models and rate-limited providers run sequentially or throttled.
 - **Learns.** It records size, model, replans and findings per card and suggests moving a size up or down a slot.
-- **Safe.** Minions are sandboxed with `$HOME` hidden, never see secrets, and their output is data.
+- **Safe, per stage.** `bwrap` on Linux and WSL2, Docker on macOS and Windows (and for QA that needs real services, with Gru starting the services itself). Minions never see secrets, and their output is data.
+- **Can stay invisible.** An interview option versions nothing, adds no file to the repo and leaves no trace in commits or PRs, for projects where people do not want Gru around.
 - **Light to load.** `SKILL.md` is a small entry point that reads the other files only when a step needs them.
 
 ## Commands

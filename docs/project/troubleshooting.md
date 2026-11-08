@@ -6,6 +6,12 @@
 
 **`gru sandbox: bwrap missing, refusing to run unsandboxed`.** Install bubblewrap (`sudo apt install bubblewrap`). Gru will not run opencode without it.
 
+**`gru sandbox: docker daemon not running`.** Start Docker (Docker Desktop, Colima, `podman machine start`). On macOS and native Windows Gru needs it for every stage.
+
+**Docker on macOS or Windows misbehaves.** That path is untested; please report what you see. For Claude login inside containers see [#8](https://github.com/igormcsouza/gru/issues/8).
+
+**`git status` shows Gru files.** Only possible if the store's `.gitignore` was deleted. In `versioning: none` mode it must contain just `*`; in `team` mode `*`, `!.gitignore`, `!gru.yml`. Rerun `/gru setup` to rewrite it.
+
 **tether MCP tools missing.** The installer registers it at user scope; check `claude mcp get tether`, and that `uv` and `tether --version` work. Restart the session.
 
 **`NVIDIA_API_KEY` warning.** Export it in `~/.profile`; the installer only checks that it exists.

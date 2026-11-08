@@ -5,7 +5,9 @@ Each feature has a Markdown log, `active/<slug>.md` while open and `archive/<slu
 ```text
 <store>/.gitignore                   ignores everything except itself and gru.yml
 <store>/gru.yml                      team policy (the only versioned file)
-<store>/local.yml                    your models, harness, limits, calibration (ignored)
+<store>/local.yml                    your models, harness, sandbox, limits, calibration (ignored)
+<store>/project.md                   project notes, only in versioning: none (ignored)
+<store>/images/                      Dockerfile and image.yml for the docker sandbox (ignored)
 <store>/active/<slug>.md             feature log
 <store>/active/<slug>/cards/         <id>.md, <id>.plan.md
 <store>/active/<slug>/handback.md    result for the caller
@@ -28,12 +30,22 @@ In git, `<root>` is the **main repo**, never a worktree. ## What is versioned
 | `gru.yml` | **yes** | Team policy that should be identical for everyone: budget defaults, `sensitive` paths, timeout, `tether_repo`, permissions. Small and rarely changes. |
 | `local.yml` | no | Depends on *your* models, harness, limits and history; calibration is churny and personal. |
 | `active/`, `archive/` (logs, cards, plans, `handback.md`) | no | Per-person working state: noisy diffs, session ids, local paths. Durable facts belong in the PR, in `AGENTS.md` (offered by `done`) and in the hand-back. |
+| `images/` (Dockerfile, `image.yml`) | no | Machine-specific build output. |
 | project facts (checks, "done", branch style) | yes, in `AGENTS.md`/`CLAUDE.md` | Already shared there by the interview. |
 
-Gru writes a `.gitignore` inside the store (`*`, `!.gitignore`, `!gru.yml`), so this holds for any store location. If you do not want even `gru.yml` versioned, delete its `!gru.yml` line.
+Gru writes a `.gitignore` inside the store (`*`, `!.gitignore`, `!gru.yml`), so this holds for any store location. If you do not want even `gru.yml` versioned, use `versioning: none`.
 
 !!! warning
     Ignored logs die with an ephemeral container or a fresh clone, so `/gru resume` finds nothing there. Point `gru store:` at a persistent path outside the repo if you need it.
+
+## Versioning: none
+
+For projects where people do not want Gru around, answer `none` in the [interview](setup.md). Then:
+
+- Nothing in the repo changes. The store's `.gitignore` is just `*` (it ignores itself), so `git status` stays clean; there is no `gru.yml`, no `gru store:` line, no edit to `AGENTS.md`/`CLAUDE.md` or the repo's `.gitignore`.
+- Project notes go to `<store>/project.md`, policy keys to `local.yml`, and `done` writes lessons to `project.md`.
+- Commits, branches and PR text carry no mention of Gru. The work itself still lands in your repo, of course.
+- Set `versioning` in `~/.config/gru/profile.yml` to pre-select it for new projects.
 
 ## Template
 

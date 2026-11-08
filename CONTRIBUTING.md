@@ -1,6 +1,6 @@
 # Contributing to Gru
 
-Gru is a skill (Markdown prompts: a small `SKILL.md` that loads `skills/gru/ref/*.md` on demand) plus one shell script and five role briefs in `agents/`. Both prompt and script changes get review.
+Gru is a skill (Markdown prompts: a small `SKILL.md` that loads `skills/gru/ref/*.md` on demand) plus two shell scripts (the sandboxes) and five role briefs in `agents/`. Both prompt and script changes get review.
 
 ## Ground rules
 
@@ -13,7 +13,7 @@ Gru is a skill (Markdown prompts: a small `SKILL.md` that loads `skills/gru/ref/
 
 ```bash
 git clone https://github.com/igormcsouza/gru.git && cd gru && ./install.sh --target claude
-bash -n install.sh skills/gru/sandbox.sh
+bash -n install.sh skills/gru/sandbox.sh skills/gru/sandbox-docker.sh
 uv sync --only-group docs && uv run mkdocs build --strict   # if you touched docs/
 ```
 

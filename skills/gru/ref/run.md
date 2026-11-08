@@ -19,7 +19,7 @@ The matrix is in `SKILL.md` (always loaded). Extra rules: the tests swe and the 
    - **blocking**: a DoD line not met, a failing check, a bug, a security problem, a scope violation.
    - **should-fix**: smells, missing edge-case coverage, maintainability issues that are not wrong today.
    - **note**: advisory.
-6. **done**: no blocking findings and (L/XL) the caller signed off. Record the card in calibration (`ref/ops.md`). Open should-fix and notes ride along in the hand-back.
+6. **done**: no blocking findings and (L/XL) the caller signed off. **Before writing the hand-back, append the card to `local.yml` `calibration.history`:** `{date, feature, card, size, swe_slot, swe_model, harness, replans, bumped, blocking, should_fix, tokens, minutes, outcome}` (keep the last 200) and recompute `calibration.stats["size/slot"]` (`n`, `first_pass`, `avg_replans`, `bumps`). Suggestions are in `ref/ops.md`, Calibration. Open should-fix and notes ride along in the hand-back.
 
 ## Replan (save the work)
 Triggered by blocking findings, a twice-failed gate, or a planner doubt. The **same planner** that owns the card gets the findings and writes a **delta plan**: keep everything that passed, change only what was flagged, say which pinned tests stay (a pinned test changes only if the planner shows it was wrong, and then it is re-pinned and re-checked against the DoD). It may fold in cheap should-fix items while it is there. Then swe B fixes just that, the gate re-runs, and qa/review re-check only what changed plus the DoD.

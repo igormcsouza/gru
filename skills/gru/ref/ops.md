@@ -45,7 +45,7 @@ List `active/*.md` (slug, goal, status, updated, top 3 next steps, budget used).
 3. Set `Status: done`, `Closed`, move the log and its folder to `archive/`, stop logging, report what was removed and what was kept.
 
 ## Logging (automatic while a feature is active)
-Append only, newest last, timestamped `YYYY-MM-DD HH:MM`, at each checkpoint (request, decision, card stage change, finding summary, replan, steer, escalation, tether friction, PR, merge) and before the session may end; reply with a one-line "logged". Record what a cold start needs: paths, commands, branches, PRs, session ids, gotchas.
+Append only, newest last, timestamped `YYYY-MM-DD HH:MM` taken from `date '+%Y-%m-%d %H:%M'` (never guessed or invented), at each checkpoint (request, decision, card stage change, finding summary, replan, steer, escalation, tether friction, PR, merge) and before the session may end; reply with a one-line "logged". Record what a cold start needs: paths, commands, branches, PRs, session ids, gotchas.
 
 Log template:
 ```markdown

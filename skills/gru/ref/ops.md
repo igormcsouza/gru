@@ -39,7 +39,7 @@ Always confirm what changed in one line and log it. Steering never exceeds an ap
 List `active/*.md` (slug, goal, status, updated, top 3 next steps, budget used). Confirm which. Read it fully, summarize in <=10 lines, then **reconcile minions**: for each in-flight card check its worktree/branch/session and either re-attach or restart that stage at its recorded slot. Resume logging.
 
 ## done
-1. Write the wrap-up (outcome, decisions, PRs, debt, lessons, cost by slot vs what it solved, calibration changes), and offer to copy durable lessons into the project's `AGENTS.md` (user approves the text; in `none` mode append them to `<store>/project.md` instead and never offer `AGENTS.md`).
+1. Make sure every closed card is in `local.yml` `calibration.history` (Calibration, below). Write the wrap-up (outcome, decisions, PRs, debt, lessons, cost by slot vs what it solved, calibration changes), and offer to copy durable lessons into the project's `AGENTS.md` (user approves the text; in `none` mode append them to `<store>/project.md` instead and never offer `AGENTS.md`).
 2. **Clean up leftovers**, listing first and acting only on what this feature created (the log lists them): kill minion processes still running (`pgrep -af "opencode run|bwrap"` filtered to the feature's worktrees; `tether_list` for open sessions); `git worktree remove` each feature worktree whose branch is merged or pushed, then `git worktree prune`; delete merged local task branches (`git branch -d`, never `-D`, never remote); remove scratch files and the selftest worktree. Anything with unpushed or unmerged work is **kept** and listed with its path. Never delete by glob; remove by recorded path.
 3. Set `Status: done`, `Closed`, move the log and its folder to `archive/`, stop logging, report what was removed and what was kept.
 
@@ -71,7 +71,7 @@ Track per card and total: tokens (what the harness reports; otherwise bytes/4 ma
 - Quality over savings: if the gate for a card looks too weak (no real checks), say so and ask rather than shipping green-but-wrong.
 
 ## Calibration (learn the project)
-When a card closes, append to `local.yml` `calibration.history`: `{date, feature, card, size, swe_slot, swe_model, harness, replans, bumped, blocking, should_fix, tokens, minutes, outcome}`; keep the last 200. Recompute `calibration.stats["size/slot"]`: `n`, `first_pass` (share done with 0 replans), `avg_replans`, `bumps`.
+**Do this when a card reaches `done` (before writing its hand-back), and again in the `done` command for any closed card that is missing from `calibration.history`**: append to `local.yml` `calibration.history`: `{date, feature, card, size, swe_slot, swe_model, harness, replans, bumped, blocking, should_fix, tokens, minutes, outcome}`; keep the last 200. Recompute `calibration.stats["size/slot"]`: `n`, `first_pass` (share done with 0 replans), `avg_replans`, `bumps`.
 Suggest, never apply on your own, in the next preview and in `status`:
 - `n >= 5` and (`first_pass` < 0.5 or `avg_replans` >= 1): "S cards on weak keep needing replans here; move S to mid?"
 - `n >= 8`, `first_pass` >= 0.9 and almost no blocking findings: "M cards on mid pass first try; try weak for small M?"

@@ -82,6 +82,7 @@ nav:
       - guide/index.md
       - First run: guide/setup.md
       - Commands: guide/commands.md
+      - Single stages: guide/standalone.md
       - Task cards: guide/task-cards.md
       - Models and roles: guide/roles.md
       - How a card runs: guide/pipeline.md

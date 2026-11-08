@@ -8,6 +8,7 @@ Each feature has a Markdown log, `active/<slug>.md` while open and `archive/<slu
 <store>/local.yml                    your models, harness, sandbox, limits, calibration (ignored)
 <store>/project.md                   project notes, only in versioning: none (ignored)
 <store>/images/                      Dockerfile and image.yml for the docker sandbox (ignored)
+<store>/runs/                        reports of single-stage runs (ignored)
 <store>/active/<slug>.md             feature log
 <store>/active/<slug>/cards/         <id>.md, <id>.plan.md
 <store>/active/<slug>/handback.md    result for the caller

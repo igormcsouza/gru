@@ -12,7 +12,9 @@ plan -> tests -> build -> gate -> qa + review -> done
 2. **Tests** (swe A): writes the verification only, one test per DoD line plus bad days, and shows each fails for the right reason. The planner checks coverage. Non-code work gets a checklist, script or link check instead.
 3. **Build** (swe B, fresh session): makes the pinned tests pass. Pinned tests are read-only.
 4. **Gate** (Gru, deterministic): tests byte-identical, acceptance commands pass, only owned files touched, sane diff, no secrets. Gru never trusts "done".
-5. **QA** hunts bugs, edge cases and hard-to-maintain code. The **reviewer** ticks the DoD line by line with evidence and reviews the diff.
+5. **QA** hunts bugs, edge cases and hard-to-maintain code. The **reviewer** ticks the DoD line by line with evidence and reviews the diff. Both also cover what the project said it expects and its **extra checks**; any evidence that needs a tool (Asana, Jira, ...) is gathered by Gru and handed over, and a check Gru cannot gather is reported `unverified`, never guessed.
+
+To run just one of these stages on work that already exists, see [Single stages](standalone.md).
 
 ## Findings
 

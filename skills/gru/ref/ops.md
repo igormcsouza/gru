@@ -8,6 +8,7 @@ Resolve once per session, first match wins: (1) path in a `gru store:` / `featur
 <store>/local.yml                    your models, harness, limits, sandbox, calibration (ignored)
 <store>/project.md                   project notes in none mode (ignored)
 <store>/images/                      Dockerfile, image.yml for the docker sandbox (ignored)
+<store>/runs/                        reports of standalone stage runs (ignored)
 <store>/active/<slug>.md             feature log
 <store>/active/<slug>/cards/<id>.md  card, <id>.plan.md  its plan
 <store>/active/<slug>/handback.md    result for the caller

@@ -13,11 +13,13 @@ This skill is split so a run loads only what it needs. **Read the file for your 
 |---|---|
 | Preflight finds no/old `local.yml`, or `setup`, or `selftest` | `ref/setup.md` |
 | New request: grill, cards, preview | `ref/plan.md` |
+| `qa`, `review`, `check`, `run <stage>` on existing work | `ref/standalone.md`, then `ref/harnesses.md` (and `ref/sandbox.md` when needed) |
 | After the caller accepts: run the cards | `ref/run.md` and `ref/harnesses.md` (plus `ref/sandbox.md` when a stage uses docker, or on `selftest`) |
 | `status`, `steer`, `resume`, `done`, logging, budget, calibration | `ref/ops.md` |
 
 ## Commands (`$ARGUMENTS`)
 - `<request>`: the main one. Preflight, then (first time only) the interview, then grill, cards, preview, run, hand-back.
+- `qa|review|check <target>` and `run <stage> <target>`: run **one stage** (or qa+review) on existing work such as a PR, a branch or a card. No pipeline, no replan loop.
 - `status [feature]`: table of cards, stage, models, observations.
 - `steer <card> <note | bump [slot] | resize <XS..XL> | rerun <stage> | stop>`: change how one card is worked.
 - `resume`: re-attach an unfinished feature after a closed terminal.

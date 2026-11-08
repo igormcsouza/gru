@@ -7,8 +7,9 @@ The first time you run `/gru` in a project (and the first time with this version
 2. **Harness for the minions.** "The default is Claude Code, but I suggest tether (recommended)." You can also choose opencode or another. If tether breaks on a card, Gru falls back to Claude Code for that card and offers to report the problem to the tether repo.
 3. **Your system.** Gru detects the OS. Linux and WSL2 use `bwrap`; macOS and native Windows need [Docker](sandbox.md). You also say whether QA should run in Docker, what installs the dependencies, and which services tests need.
 4. **Limits.** Any local model (a Qwen on your machine) or rate-limited provider (NVIDIA free tier)? Those run sequentially or throttled.
-5. **The project.** Stack, check commands, e2e, branch and PR style, who merges, delivery mode, **what "done" means in your team**, risky areas, hard stops, design docs. Written to `AGENTS.md`/`CLAUDE.md`.
-6. **You.** How you want to be asked, how much Gru may decide alone, verbosity, notifications. Written once per machine to `~/.config/gru/profile.yml`.
+5. **What you expect from QA and review.** What you want to see in each report, and checks specific to this project (for example "the linked Asana task exists and matches the definition of done"). These stay with the project, are never generalized, and are written next to the project facts. Tool-backed checks are gathered by Gru with its own session's tools.
+6. **The project.** Stack, check commands, e2e, branch and PR style, who merges, delivery mode, **what "done" means in your team**, risky areas, hard stops, design docs. Written to `AGENTS.md`/`CLAUDE.md`.
+7. **You.** How you want to be asked, how much Gru may decide alone, verbosity, notifications. Written once per machine to `~/.config/gru/profile.yml`.
 
 Then Gru offers a `selftest`. Redo it any time with `/gru setup`.
 
@@ -42,7 +43,7 @@ budget: {warn_tokens: 300000, stop_tokens: 400000}
 timeout_min: 10
 max_parallel: 3
 sensitive: [{path: "infra/**", min_slot: mid}]
-permissions: {file_tether_issues: ask}
+permissions: {file_tether_issues: ask, post_reviews: ask}
 ```
 
 `~/.config/gru/profile.yml`: your working style (`autonomy`, `questions`, `verbosity`, `notify`) and machine specifics such as `claude_config_dir`.

@@ -24,7 +24,7 @@ Order: `weak < mid < strong`. The swe slot comes from the card's size (`size_slo
 2. **tests** (swe A): writes the verification only, one test (or check) per DoD line, plus bad-day cases. Code: failing unit tests; other kinds: a checklist, script or link check. Runs them and shows they fail for the right reason. Commit them as pinned. **Planner checks** the tests against the DoD (every line covered, nothing vacuous) before build starts; gaps go back to swe A once.
 3. **build** (swe B, fresh session): implements until the pinned checks pass. Pinned tests are read-only.
 4. **gate** (you, deterministic, in the workspace): pinned tests byte-identical to the committed ones; acceptance commands pass; `git status --porcelain` (tracked and untracked) is a subset of `files_owned`; diff non-empty and sane; no secrets in the diff. A failed gate: one retry of swe B with the exact failure output; a second failure counts as a **replan**.
-5. **qa + review** (qa and reviewer, in parallel unless `limits` forbid it):
+5. **qa + review** (qa and reviewer, in parallel unless `limits` forbid it). Brief both with the project's QA/review **expectations** and **extra checks**; gather tool-backed evidence yourself first (`ref/standalone.md`, Expectations):
    - **qa**: runs the work, probes edge cases and bad days, hunts bugs, smells and hard-to-maintain code, writes extra checks as findings (does not fix).
    - **reviewer**: ticks the **definition of done** line by line with evidence, reviews the diff for correctness, security, conventions and smells, and rules on qa's findings.
    Both return findings of three kinds:

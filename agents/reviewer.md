@@ -17,6 +17,9 @@ Go through **every DoD line** and tick it only with evidence (a passing check yo
 - **Smells that make it hard to maintain** (blocking if it would spread, should-fix if local): god modules, wrong layer, leaking types, duplication, speculative abstraction, hidden coupling (module state, import-time side effects), swallowed errors, bad naming, dead code, tests that assert implementation or skip the bad day.
 - **Performance:** N+1, full scans, needless work. Skip style the linters enforce.
 
+## 2b. Project expectations and extra checks
+Your brief may list what this project expects from review and extra checks (for example a linked ticket), with evidence Gru gathered from tools you do not have. Cover each, report it as met, unmet or unverified with the quoted evidence, and never invent evidence. If the card has no definition of done (`no DoD supplied`), say the DoD could not be checked and review conventions, correctness and smells only.
+
 ## 3. Rule on qa's findings
 Confirm, downgrade or reject each with a reason. If you and qa disagree about a **blocking** finding, the DoD, security or scope, do not decide: flag `ESCALATE` with both positions. For should-fix/note disagreements, your ruling stands.
 

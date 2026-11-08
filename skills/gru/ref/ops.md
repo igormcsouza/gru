@@ -28,7 +28,7 @@ Default: the active feature (if several, list them and ask). Show a table, one r
 
 ## steer `<card> <instruction>`
 Change one card's course. Parse the instruction:
-- free text: a **binding note** for that card. Append it to the card (`## Steering`), log it, and deliver it at the next safe point: a running tether session via `tether_send`, otherwise included in the next stage's brief. If the note changes the objective or the DoD, show the new DoD, get the caller's OK, and restate the affected checks (a DoD change after tests are pinned goes through the planner and a re-pin).
+- free text: a **binding note** for that card. Append it to the card (`## Steering`), log it, and deliver it at the next safe point: a running tether session via `tether_send`, otherwise included in the next stage's brief. If the note changes the objective or the DoD, **always print the updated DoD (new or changed lines marked) and its effect on size, models and cost before replanning**; wait for the caller's OK unless their steer message already stated the requirement explicitly (then print it and continue). Restate the affected checks (a DoD change after tests are pinned goes through the planner and a re-pin).
 - `bump [weak|mid|strong]`: raise the swe slot one level (or to the named one), recompute the roles by the matrix, show the new row and cost, and apply on OK. The tests already pinned stay; build restarts with a fresh swe B session and the previous failure output.
 - `resize <XS..XL>`: change the size; recompute slots and estimate as above.
 - `rerun <stage>`: restart from that stage (keeps earlier artifacts).

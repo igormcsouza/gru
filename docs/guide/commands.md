@@ -7,6 +7,7 @@
 | `/gru review <target>` | Run the reviewer only. |
 | `/gru check <target>` | QA, then the reviewer rules on its findings. |
 | `/gru run <stage> <target>` | Any single stage: `plan`, `tests`, `build`, `gate`, `qa`, `review`. |
+| `/gru feedback [note]` | Report something [Gru itself](feedback.md) should do better. |
 | `/gru status [feature]` | A table of cards with stage, models, replans, tokens and observations. |
 | `/gru steer <card> <...>` | Change one card's course (below). |
 | `/gru resume` | Pick up an unfinished feature after a closed terminal. |

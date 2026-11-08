@@ -34,7 +34,7 @@ Ask in the user's words, per stage, and write it with the project facts (same pl
 - **QA expects**: what they want to see (scenario table, screenshots or recordings, performance numbers, particular environments or data), and where the report goes (terminal, PR comment).
 - **Review expects**: beyond smells, edge cases and the definition of done, what else (security depth, API or schema compatibility, docs, changelog, test style, size limits).
 - **Extra checks** for this project only, one per line: `<qa|review>: <what> [source: <tool>]`, e.g. `review: the linked Asana task exists and its acceptance criteria match the DoD [source: asana]`. Tool-backed checks are gathered by Gru with its own session's tools, not by the minions (`ref/standalone.md`, Expectations); ask which tool or connector each uses and whether Gru has it here. Do not generalize: record only what this project asked for, and add nothing the user did not say.
-Offer to remember `permissions.post_reviews: ask|allow` (posting a review on a PR is outward-facing; default `ask`).
+Offer to remember `permissions.file_gru_issues: ask|never` (whether Gru may offer to open issues about itself on `igormcsouza/gru`) and `permissions.post_reviews: ask|allow` (posting a review on a PR is outward-facing; default `ask`).
 
 ## 5. You (written to `~/.config/gru/profile.yml`, once per machine)
 How the user likes to work, so Gru fits them: how they want questions (batched with recommendations, or one at a time); how much to decide alone (`autonomy`: `ask` = confirm bumps and splits, `bump_ok` = may bump a swe one slot within budget); review depth they expect; language/verbosity; whether to push-notify when blocked; machine specifics (`claude_config_dir` for a separate minion login). Offer to copy the model/harness answers into the profile so new projects start from them.
@@ -75,7 +75,7 @@ budget: {warn_tokens: 300000, stop_tokens: 400000}   # paid tokens; the preview 
 timeout_min: 10
 max_parallel: 3
 sensitive: [{path: "infra/**", min_slot: mid}]       # free/third-party endpoints never see these below min_slot
-permissions: {file_tether_issues: ask, post_reviews: ask}   # ask | allow
+permissions: {file_tether_issues: ask, post_reviews: ask, file_gru_issues: ask}   # ask | allow (file_gru_issues also: never)
 ```
 `~/.config/gru/profile.yml`: `versioning` (default for new projects), `autonomy`, `questions` (`batched|one`), `verbosity`, `notify`, `claude_config_dir`, plus optional default `slots`/`minion_harness`/`limits` for new projects.
 

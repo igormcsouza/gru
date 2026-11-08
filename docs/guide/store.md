@@ -60,6 +60,7 @@ For projects where people do not want Gru around, answer `none` in the [intervie
 ## Cards   | Card | Size | Stage | swe | plan | qa | rev | Replans | Tokens | Notes |
 ## Tether friction
 ## Progress log
+## Gru feedback
 ## Next steps
 ## Sessions
 ```

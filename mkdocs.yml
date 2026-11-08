@@ -89,6 +89,7 @@ nav:
       - Sandbox: guide/sandbox.md
       - Budget and calibration: guide/budget.md
       - Logs and store: guide/store.md
+      - Feedback to Gru: guide/feedback.md
       - Role agents: guide/dev-team.md
   - Project:
       - Troubleshooting: project/troubleshooting.md

@@ -39,6 +39,7 @@ Always confirm what changed in one line and log it. Steering never exceeds an ap
 List `active/*.md` (slug, goal, status, updated, top 3 next steps, budget used). Confirm which. Read it fully, summarize in <=10 lines, then **reconcile minions**: for each in-flight card check its worktree/branch/session and either re-attach or restart that stage at its recorded slot. Resume logging.
 
 ## done
+0. If `## Gru feedback` has items, make the single offer from `ref/feedback.md`.
 1. Make sure every closed card is in `local.yml` `calibration.history` (Calibration, below). Write the wrap-up (outcome, decisions, PRs, debt, lessons, cost by slot vs what it solved, calibration changes), and offer to copy durable lessons into the project's `AGENTS.md` (user approves the text; in `none` mode append them to `<store>/project.md` instead and never offer `AGENTS.md`).
 2. **Clean up leftovers**, listing first and acting only on what this feature created (the log lists them): kill minion processes still running (`pgrep -af "opencode run|bwrap"` filtered to the feature's worktrees; `tether_list` for open sessions); `git worktree remove` each feature worktree whose branch is merged or pushed, then `git worktree prune`; delete merged local task branches (`git branch -d`, never `-D`, never remote); remove scratch files and the selftest worktree. Anything with unpushed or unmerged work is **kept** and listed with its path. Never delete by glob; remove by recorded path.
 3. Set `Status: done`, `Closed`, move the log and its folder to `archive/`, stop logging, report what was removed and what was kept.
@@ -58,6 +59,7 @@ Log template:
 |---|---|---|---|---|---|---|---|---|---|
 ## Tether friction
 ## Progress log
+## Gru feedback
 ## Next steps
 - [ ]
 ## Sessions

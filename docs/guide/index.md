@@ -9,4 +9,5 @@
 - [Sandbox](sandbox.md): how minions are contained.
 - [Budget and calibration](budget.md): caps, cost, learning the project.
 - [Logs and store](store.md): the cross-session log.
+- [Feedback to Gru](feedback.md): how Gru learns from your runs.
 - [Role agents](dev-team.md): `planner`, `swe`, `qa`, `reviewer`, `team-leader`.

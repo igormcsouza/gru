@@ -22,6 +22,7 @@ Running the biggest model on every keystroke is the most expensive way to ship, 
 - **Fix what was bad.** Findings are blocking, should-fix or note. Blocking ones go back to the card's planner for a minimal replan (max 2), then to the caller.
 - **Asks for help.** Ambiguity, sign-offs on L/XL reviews, budget caps and broken harnesses come to the caller.
 - **One stage at a time.** `/gru check 142` runs QA and a review on a PR you did not build with Gru; `qa`, `review` and `run <stage>` do the same for single steps.
+- **Helps improve itself.** When Gru hits something about itself (a failing recipe, an ambiguous rule, a correction from you), it records it and, only with your approval of the text, offers to open an issue here. Generic wording, no project details.
 - **Knows what you expect.** The interview asks what you want to see from QA and review in this project, including project-only checks such as a linked Asana task; Gru gathers tool-backed evidence itself.
 - **Respects your hardware and quotas.** Local models and rate-limited providers run sequentially or throttled.
 - **Learns.** It records size, model, replans and findings per card and suggests moving a size up or down a slot.

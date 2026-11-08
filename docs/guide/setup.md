@@ -43,7 +43,7 @@ budget: {warn_tokens: 300000, stop_tokens: 400000}
 timeout_min: 10
 max_parallel: 3
 sensitive: [{path: "infra/**", min_slot: mid}]
-permissions: {file_tether_issues: ask, post_reviews: ask}
+permissions: {file_tether_issues: ask, post_reviews: ask, file_gru_issues: ask}
 ```
 
 `~/.config/gru/profile.yml`: your working style (`autonomy`, `questions`, `verbosity`, `notify`) and machine specifics such as `claude_config_dir`.

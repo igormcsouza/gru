@@ -1,23 +1,25 @@
 # Task cards
 
-A minion sees no conversation, so each task is self-contained. This is where the strong model's tokens are best spent: weak models fail on vague specs.
+A minion sees no conversation, so each card is self-contained. Strong-model tokens are best spent here: weak models fail on vague cards. Each card has an **objective** and a **definition of done**.
 
 | Field | Why |
 |---|---|
-| id, branch, one-paragraph goal | what and where |
-| **files it owns** | disjoint from other tasks in the phase |
-| **pre-written tests** (paths) | read-only for the minion; Gru checks they are unchanged |
-| **reading list** | exact files to read, "do not explore the repo": keeps tokens down |
-| `est_tokens` | card + reading list + expected output, estimated as bytes/4 |
-| conventions that apply | the few lines pasted in, not "see AGENTS.md" |
-| **acceptance commands** | lint, types, tests for the touched code |
-| difficulty (`easy`/`medium`/`hard`), risk (`low`/`high`) | sets the starting [tier](tiers.md) |
-| rule line | "Do not run git commit/push, do not touch other files, do not read `.env*`." |
+| id, title, **size** (XS to XL), risk, kind | what it is, and which slots run it |
+| **Objective** | what changes, for whom, why |
+| **Definition of done** | a checklist; every line names its check (a test, a command, or what the reviewer inspects) |
+| `files_owned`, `depends_on`, `resources` | scheduling: disjoint files, order, rate-limited or local models |
+| **Context** | at most 10 lines of the small whole picture |
+| **Reading list** | exact files to read; "do not explore the repo" |
+| **Conventions** | the few project lines that apply, pasted in |
+| **Rules** | no commit/push, no touching other files, no `.env*` |
+| **Estimate** | tokens by stage, and cost if prices are known |
 
-## Tests first
-
-For each code task the **strong model writes failing acceptance tests** that pin the behavior (happy path and bad day) and commits them on the task branch before dispatch. Minions only make them pass. A task with no testable behavior says so in its card and starts one tier higher.
+"Works well" or "is clean" is not a definition of done. If Gru cannot make a line checkable it asks you.
 
 ## Sizing
 
-Size for the weakest model. If `est_tokens` exceeds half the target model's context window (`context` map in `gru.json`; unknown free models count as 32k), split the task, trim the reading list or start at a tier with a bigger window. Prefer many small cards over one big one.
+Gru guesses the size, you decide in the preview (or later with `/gru steer <card> resize <size>`). An XL probably wants splitting. If `est_tokens` exceeds half the target model's context window (unknown free models count as 32k), Gru splits the card or trims the reading list.
+
+## Preview
+
+Before anything runs you see a table (card, size, risk, dependencies, the model per role, harness, estimated tokens and cost), the **schedule** (what runs together, and why anything is sequential), the budget, and flags (L/XL sign-offs, calibration notes). Change anything; your decision wins.

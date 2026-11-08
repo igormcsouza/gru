@@ -1,6 +1,6 @@
 ---
 name: swe
-description: Implements one well-specified task card in one of two modes. `tests`: writes the verification (failing tests, one per definition-of-done line). `build`: makes the pinned tests pass. Does not plan or make product decisions.
+description: "Implements one well-specified task card in one of two modes. `tests`: writes the verification (failing tests, one per definition-of-done line). `build`: makes the pinned tests pass. Does not plan or make product decisions."
 isolation: worktree
 ---
 

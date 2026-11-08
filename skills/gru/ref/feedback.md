@@ -22,4 +22,4 @@ One issue per item (group tiny related ones). Title, then: **What happened**, **
 - Search first: `gh issue list --repo igormcsouza/gru --search "<keywords>" --state all`. A duplicate gets an extra-evidence comment instead (also asked).
 
 ## File (outward-facing)
-Show every draft in full and ask. On yes: `gh issue create --repo igormcsouza/gru --title ... --body ...` (end the body with a line saying it was drafted by Gru with the user's approval). No `gh` or no auth: print the draft for the user to paste at `https://github.com/igormcsouza/gru/issues/new`. Record the issue links in the log. If the user declines, drop it; do not ask again for the same item.
+**Rule: never file an issue without first showing the user its full text and getting a yes.** Show every draft in full and ask. On yes: `gh issue create --repo igormcsouza/gru --title ... --body ...` (end the body with a line saying it was drafted by Gru with the user's approval). No `gh` or no auth: print the draft for the user to paste at `https://github.com/igormcsouza/gru/issues/new`. Record the issue links in the log. If the user declines, drop it; do not ask again for the same item.

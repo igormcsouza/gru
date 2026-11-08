@@ -1,0 +1,12 @@
+name: preview_follows_matrix
+preseed: true            # a configured team-mode store, built from the repo's own setup.md schema
+max_cost: 1.5
+turns:
+  - say: >-
+      /gru add a function mul(a, b) to calc.py that multiplies two numbers, with a test.
+      For the grill, take your own recommendations on every question and go straight to the preview.
+    asserts:
+      - {type: preview_matches_matrix}
+      - {type: no_tool, names: [Agent, Task]}
+      - {type: no_bash, regex: "sandbox\\.sh|claude -p|opencode run|tether_run"}   # nothing is dispatched before accept
+      - {type: result_matches, regex: "accept"}

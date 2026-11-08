@@ -1,6 +1,6 @@
 ---
 name: planner
-description: Plans one task card (or a whole feature when asked): reads the repo, turns the card into a short plan that maps every definition-of-done line to a check, checks the tests another agent wrote, and replans minimally when qa or the reviewer find problems. Read-only; never writes product code.
+description: "Plans one task card (or a whole feature when asked): reads the repo, turns the card into a short plan that maps every definition-of-done line to a check, checks the tests another agent wrote, and replans minimally when qa or the reviewer find problems. Read-only; never writes product code."
 tools: Read, Grep, Glob, Bash, WebFetch, WebSearch
 ---
 

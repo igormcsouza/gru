@@ -1,0 +1,68 @@
+# Each entry: the model sees only `load` (paths under skills/gru/) and must answer `question`.
+# `expect` must match the answer (regex, case-insensitive); `forbid` must not.
+- id: matrix-s-reviewer
+  load: [SKILL.md]
+  question: "A card is size S. Which strength slot do the swes, the planner and the reviewer use?"
+  expect: 'weak.*mid|mid.*weak'
+- id: matrix-m-roles
+  load: [SKILL.md]
+  question: "A card is size M. Which slot does the reviewer use?"
+  expect: 'strong'
+- id: matrix-weak-swe-planner
+  load: [SKILL.md]
+  question: "The swe slot is weak. What is the weakest slot the planner may use?"
+  expect: '\bmid\b'
+- id: matrix-xl-no-stronger
+  load: [SKILL.md]
+  question: "An XL card has a strong swe and no strong_alt is configured. What happens at review?"
+  expect: 'sign.?off|caller'
+- id: first-call-question
+  load: [SKILL.md]
+  question: "The user's first /gru in a project with no local.yml is a one-line question about the code. What do you do first?"
+  expect: 'interview'
+- id: agent-tool-forbidden
+  load: [SKILL.md]
+  question: "May you start a minion with the Agent or Task tool?"
+  expect: '\b(no|never|not)\b'
+  forbid: '^\s*yes'
+- id: none-mode-agents-md
+  load: [SKILL.md, ref/setup.md]
+  question: "In versioning none mode, may you edit AGENTS.md or add a gru store line?"
+  expect: '\b(no|never|not)\b'
+- id: logs-versioned
+  load: [SKILL.md, ref/ops.md]
+  question: "Are logs, cards and hand-backs committed to git?"
+  expect: '\b(never|not|no)\b'
+- id: replan-cap
+  load: [SKILL.md, ref/run.md]
+  question: "How many replans does a card get before it goes to the caller?"
+  expect: '\b(2|two)\b'
+- id: disagreement-nonblocking
+  load: [SKILL.md, ref/run.md]
+  question: "qa and the reviewer disagree about a should-fix finding. Who decides?"
+  expect: 'reviewer'
+- id: disagreement-blocking
+  load: [SKILL.md, ref/run.md]
+  question: "qa and the reviewer disagree about a blocking finding. Who decides?"
+  expect: 'caller|user|escalat'
+- id: claude-bash-denied
+  load: [ref/harnesses.md]
+  question: "A claude minion reports its Bash command 'requires approval' and did not run. What is the likely cause in the recipe?"
+  expect: 'allowedTools'
+- id: macos-sandbox
+  load: [ref/sandbox.md]
+  question: "Which sandbox backend is required on macOS?"
+  expect: 'docker'
+- id: asana-evidence
+  load: [ref/standalone.md]
+  question: "A project's extra check needs data from Asana. Who gathers that evidence and how is it passed on?"
+  expect: 'gru|you|orchestrator|caller'
+  forbid: 'minion[^.]*(gather|fetch|query)'
+- id: feedback-needs-approval
+  load: [ref/feedback.md]
+  question: "May you file an issue on igormcsouza/gru without showing the user the text first?"
+  expect: '\b(no|never|not)\b'
+- id: tether-fault-fallback
+  load: [ref/harnesses.md]
+  question: "A tether run crashes because of a tether bug. Which harness do you rerun that stage on, and what do you ask the user before filing an issue?"
+  expect: 'claude'

@@ -4,3 +4,4 @@ __pycache__/
 .claude/gru.json
 site/
 .venv/
+.pytest_cache/

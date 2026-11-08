@@ -1,0 +1,25 @@
+name: CI
+
+# Static and deterministic only: no network, no secrets, no model calls.
+# Model-backed checks are a separate local-only suite (see docs/project/testing.md).
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  static:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.12"
+      - run: uv sync --group test --group docs
+      - name: Static tests (structure, consistency, scripts, installer)
+        run: uv run pytest -q
+      - name: Docs build (strict)
+        run: uv run mkdocs build --strict

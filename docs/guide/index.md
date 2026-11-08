@@ -1,9 +1,13 @@
 # Guide
 
-- [Commands](commands.md)
-- [Task cards](task-cards.md): what a minion receives.
-- [Tiers and routing](tiers.md): models, harnesses, escalation, `gru.json`.
+- [First run: the interview](setup.md): models, harness, limits, project, you.
+- [Commands](commands.md): request, qa/review/check, status, steer, resume, setup, selftest, done.
+- [Single stages](standalone.md): QA or review on a PR you did not build with Gru.
+- [Task cards](task-cards.md): objective, definition of done, size.
+- [Models, roles and harnesses](roles.md): strong/mid/weak, the role matrix, tether fallback, limits.
+- [How a card runs](pipeline.md): plan, tests, build, gate, qa and review, replan, hand-back.
 - [Sandbox](sandbox.md): how minions are contained.
-- [Budget](budget.md): caps and watch lines.
+- [Budget and calibration](budget.md): caps, cost, learning the project.
 - [Logs and store](store.md): the cross-session log.
-- [Dev team agents](dev-team.md): `team-leader`, `architect`, `swe`, `qa`, `reviewer`.
+- [Feedback to Gru](feedback.md): how Gru learns from your runs.
+- [Role agents](dev-team.md): `planner`, `swe`, `qa`, `reviewer`, `team-leader`.

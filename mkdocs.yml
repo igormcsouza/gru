@@ -1,5 +1,5 @@
 site_name: gru
-site_description: A strong-model orchestrator that plans and verifies, while free and cheap models do the typing. Written in plain English.
+site_description: A small team of AI roles (planner, swe, qa, reviewer) on strong, mid and weak models, orchestrated in plain English.
 site_author: Igor Souza
 site_url: https://igormcsouza.github.io/gru/
 
@@ -80,13 +80,17 @@ nav:
       - Quickstart: getting-started/quickstart.md
   - Guide:
       - guide/index.md
+      - First run: guide/setup.md
       - Commands: guide/commands.md
+      - Single stages: guide/standalone.md
       - Task cards: guide/task-cards.md
-      - Tiers and routing: guide/tiers.md
+      - Models and roles: guide/roles.md
+      - How a card runs: guide/pipeline.md
       - Sandbox: guide/sandbox.md
-      - Budget: guide/budget.md
+      - Budget and calibration: guide/budget.md
       - Logs and store: guide/store.md
-      - Dev team agents: guide/dev-team.md
+      - Feedback to Gru: guide/feedback.md
+      - Role agents: guide/dev-team.md
   - Project:
       - Troubleshooting: project/troubleshooting.md
       - Contributing: project/contributing.md

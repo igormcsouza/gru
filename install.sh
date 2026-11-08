@@ -67,6 +67,11 @@ install_into() { # install_into <skills dir> <agents dir>
   mkdir -p "$1" "$2"
   link "$REPO/skills/gru" "$1/gru"
   for f in "$REPO"/agents/*.md; do link "$f" "$2/$(basename "$f")"; done
+  # drop symlinks into this repo's agents/ whose target no longer exists (e.g. the old architect.md)
+  for l in "$2"/*.md; do
+    [ -L "$l" ] && [ ! -e "$l" ] && case "$(readlink "$l")" in "$REPO"/agents/*) rm "$l" && echo "removed  $l (agent no longer exists)";; esac
+  done
+  return 0
 }
 
 case "$TARGET" in

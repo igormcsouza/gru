@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 # Run a minion command with only <worktree> writable. Usage: sandbox.sh <worktree> -- <cmd...>
 # Hides $HOME (ssh keys, cloud creds, other repos); re-binds only what opencode needs.
-# Network stays on (the model API needs it). Extra RW paths: GRU_SANDBOX_RW="p1:p2"; extra read-only: GRU_SANDBOX_RO="p1:p2".
+# Network stays on (the model API needs it) unless GRU_SANDBOX_NET=private: then the command gets its own empty
+# loopback-only network (for commands Gru runs itself, e.g. gate/checks/e2e, so parallel cards never share ports).
+# Always: own pid/ipc/uts namespaces and a new session. Extra RW paths: GRU_SANDBOX_RW="p1:p2"; extra read-only: GRU_SANDBOX_RO="p1:p2".
 set -eu
 wt="$(cd "$1" && pwd)"; shift; [ "${1:-}" = "--" ] && shift
 command -v bwrap >/dev/null || { echo "gru sandbox: bwrap missing, refusing to run unsandboxed" >&2; exit 127; }
-args=(--ro-bind / / --dev /dev --proc /proc --tmpfs /tmp --tmpfs "$HOME" --die-with-parent --chdir "$wt" --bind "$wt" "$wt")
+args=(--ro-bind / / --dev /dev --proc /proc --tmpfs /tmp --tmpfs "$HOME" --die-with-parent --unshare-pid --unshare-ipc --unshare-uts --new-session --chdir "$wt" --bind "$wt" "$wt")
+[ "${GRU_SANDBOX_NET:-}" = private ] && args+=(--unshare-net)
 for p in "$HOME/.opencode" "$HOME/.config/opencode"; do [ -e "$p" ] && args+=(--ro-bind "$p" "$p"); done
 # claude harness: binary (read-only) and the claude config dir (read-write: token refresh, sessions)
 for p in "$HOME/.local/bin/claude" "$HOME/.local/share/claude"; do [ -e "$p" ] && args+=(--ro-bind "$p" "$p"); done

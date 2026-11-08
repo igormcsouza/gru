@@ -1,43 +1,39 @@
 # Quickstart
 
-!!! tip
-    Run the orchestrator on Sonnet: `claude --model sonnet`. On Opus the orchestrator itself becomes the biggest paid cost.
-
-## 1. Prove the harnesses
-
-```text
-/gru selftest
-```
-
-One trivial task ("create `hello.txt` containing `ok`") runs per tier-0/1 harness and model through the sandbox. Gru checks the cwd is respected, `~/.ssh` is hidden, writes outside the worktree fail, usage numbers are reported, and records results in `.claude/gru.json`. A few cents at most.
-
-## 2. Start a feature
+## 1. Start
 
 ```text
 /gru add rate limiting to the public API
 ```
 
-On first use in a project, Gru runs a **preflight**: it pre-fills a `## Dev team specifics` section (code projects) from your Makefile, `package.json`, CI and git history and asks only for what is missing: stack, check commands, E2E, branch and PR style, delivery mode, hard stops, design docs. Non-code projects get a short `## Feature context` instead.
+On the first run in a project Gru runs the [interview](../guide/setup.md): models (stay on Opus/Sonnet/Haiku or change), the minion harness ("default is Claude Code, I suggest tether"), limits for local or rate-limited models, the project's checks and what "done" means, and how you like to work. It then offers a `selftest`.
 
-## 3. Get grilled
+## 2. Get grilled
 
-Gru reads your repo docs first and never asks what they already answer. Then at most 7 questions per round, each with a recommendation: does it fit the repo, should it exist, smallest useful version, non-goals, failure modes, trust boundaries, cost. It may conclude "don't build this" and log that decision.
+Gru reads your repo docs first and never asks what they answer. Then at most 7 questions per round, each with a recommendation. It may conclude "don't build this".
 
-## 4. Approve the plan preview
+## 3. Review the cards
 
-`architect` produces the task plan. You see tasks, the starting tier per task, estimated minion cost and a proposed **budget**. One approval covers the plan; Gru asks again only if scope, a cap or an Opus/Fable rung changes.
+You see each card's objective, definition of done, **size**, the model per role, the schedule (sequential where a local or rate-limited model forces it), the estimated cost and the budget. Change a size, a model, a definition of done or the order; your word wins. Then accept.
 
-## 5. Watch it work
-
-Gru commits the failing acceptance tests, creates a worktree per task, dispatches minions (up to 3 at once), verifies each result itself, reviews diffs, and opens PRs per your delivery mode. Use:
+## 4. Watch it work
 
 ```text
 /gru status
 ```
 
-## 6. Come back later, then close
+A table of cards with stage, models, replans and observations. Guide a card without stopping the others:
 
 ```text
-/gru resume    # re-attaches in-flight minions
-/gru done      # wrap-up, clean leftovers, archive the log
+/gru steer C2 use the existing Redis client
+/gru steer C2 bump
+```
+
+## 5. Take the result
+
+Gru hands back a structured result: per card status, branch or PR, evidence for every definition-of-done line, and open should-fix items. Verify it or deliver it.
+
+```text
+/gru resume    # after a closed terminal
+/gru done      # wrap up, clean leftovers, archive
 ```

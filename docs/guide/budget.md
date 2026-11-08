@@ -1,10 +1,21 @@
-# Budget
+# Budget and calibration
 
-Gru tracks, per task and in total: tokens (what the harness reports; otherwise bytes/4, marked `~`), wall-clock, attempts and escalations. **Paid tokens** are Tier 1+ minions, `reviewer`, `architect` and Gru itself.
+## Budget
 
-- **Default watch line:** a one-line warning at 300k paid tokens (spent, per tier, what is left, what is running), and stop-and-ask at 400k (raise the cap, shift work to cheaper tiers, or stop).
-- **Your caps:** set other numbers in the plan preview. With a cap, Gru warns at 75% and stops at 100%. A wall-clock cap behaves the same way.
-- **On a warning:** stop escalating, push remaining tasks to the cheapest tier that has not failed on them, shrink reviews to the risky hunks.
-- During long unattended runs Gru sends a push notification (if available) when it is blocked on you or a threshold is hit.
+Gru tracks per card and in total: tokens (what the harness reports; otherwise bytes/4, marked `~`), wall-clock and replans. **Paid tokens** are tokens on paid models, Gru itself included; free and local models are tracked but not counted against the cap.
 
-Quality over savings: if the verify gate looks too weak for a task (no tests cover it), Gru says so and raises the tier or asks you.
+- **Defaults:** a one-line warning at 300k paid tokens (spent by slot, what is left, what is running), stop-and-ask at 400k (raise it, shrink reviews to the risky hunks, shift work to cheaper slots, or stop). Set other numbers in `gru.yml` (team default) or in the preview; with a cap Gru warns at 75% and stops at 100%. A wall-clock cap behaves the same.
+- **Cost in the preview:** an estimate per card from its size and roles. Tokens always; dollars when `prices` is set in `local.yml`. Estimates start from rough defaults and sharpen with calibration.
+- **On a warning:** no more bumps without asking, no optional should-fix work.
+- During long unattended runs Gru sends a push notification (if available and allowed) when it is blocked on you or a threshold is hit.
+
+Quality over savings: if a card has no real checks, Gru says so and asks rather than shipping green-but-wrong.
+
+## Calibration
+
+When a card closes, Gru records its size, the swe slot and model, replans, findings and tokens in `local.yml`, and keeps stats per size and slot (cards, first-pass rate, average replans, bumps). It then **suggests**, never applies on its own:
+
+- "S cards on weak keep needing replans in this repo: move S to mid?"
+- "M cards on mid pass first try: try weak for small M?"
+
+Accepted suggestions update `size_slots`. Because `local.yml` lives with the project's logs, calibration carries across Gru sessions on your machine.

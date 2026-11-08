@@ -6,14 +6,28 @@
 
 **`gru sandbox: bwrap missing, refusing to run unsandboxed`.** Install bubblewrap (`sudo apt install bubblewrap`). Gru will not run opencode without it.
 
+**`gru sandbox: docker daemon not running`.** Start Docker (Docker Desktop, Colima, `podman machine start`). On macOS and native Windows Gru needs it for every stage.
+
+**Docker on macOS or Windows misbehaves.** That path is untested; please report what you see. For Claude login inside containers see [#8](https://github.com/igormcsouza/gru/issues/8).
+
+**`git status` shows Gru files.** Only possible if the store's `.gitignore` was deleted. In `versioning: none` mode it must contain just `*`; in `team` mode `*`, `!.gitignore`, `!gru.yml`. Rerun `/gru setup` to rewrite it.
+
 **tether MCP tools missing.** The installer registers it at user scope; check `claude mcp get tether`, and that `uv` and `tether --version` work. Restart the session.
 
 **`NVIDIA_API_KEY` warning.** Export it in `~/.profile`; the installer only checks that it exists.
 
-**opencode hangs or loops.** Gru enforces `timeout_min` (default 10) and escalates on stall. Run `/gru selftest` to see whether `--standalone` is needed here.
+**A minion cannot run shell commands (`EROFS` on `/sys/fs/cgroup`, or "requires approval").** The first means Claude Code's shell tool needs `/sys/fs/cgroup` writable inside the sandbox (seen in cloud containers): run `/gru selftest` and accept the `sandbox_rw` entry. The second means the recipe lacks `--allowedTools`; update Gru.
 
-**A tether run failed.** Expected sometimes: Gru logs a `Tether friction` entry and retries on opencode at the same tier.
+**Writes under `.claude/` are blocked.** Claude Code can treat `.claude/` as sensitive. Gru's default store is `.gru/` for this reason; point `gru store:` somewhere else if needed.
 
-**Lost track after closing the terminal.** `/gru resume` reads the log and re-attaches or restarts in-flight minions at their recorded tier.
+**A minion hangs or loops.** Gru enforces `timeout_min` (default 10) and treats a stall as a failed gate. Run `/gru selftest` to see whether opencode needs `--standalone` here.
+
+**A tether run failed.** Expected sometimes. If it was tether's fault, Gru logs a `Tether friction` entry, reruns that stage on Claude Code and asks before filing an issue on the tether repo. If it was not (bad card, auth, quota), it is handled as a normal failure.
+
+**The interview runs again.** It runs when your `local.yml` is missing or older than version 2 (a fresh clone has none, because it is git-ignored) (for example after upgrading from the tier-based Gru). Your old `.claude/gru.json` is migrated.
+
+**Cards run one at a time.** A `limits` rule (local model, rate-limited provider), a dependency or shared files forces it. The preview shows why.
+
+**Lost track after closing the terminal.** `/gru resume` reads the log and re-attaches or restarts in-flight minions at their recorded slot.
 
 **Worktrees left behind.** `/gru done` lists and removes only what the feature created; unpushed work is kept and listed.

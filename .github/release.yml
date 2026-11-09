@@ -1,0 +1,15 @@
+# Categories for GitHub's "Generate release notes". Label PRs (or use feat!/fix: titles with labels) to sort them.
+changelog:
+  exclude:
+    labels: [skip-changelog]
+  categories:
+    - title: "Breaking changes"
+      labels: [breaking]
+    - title: "What's new"
+      labels: [feature, enhancement]
+    - title: "Bug fixes"
+      labels: [bug, fix]
+    - title: "Docs and tests"
+      labels: [docs, tests]
+    - title: "Other"
+      labels: ["*"]

@@ -23,6 +23,10 @@ uv sync --only-group docs && uv run mkdocs build --strict   # if you touched doc
 
 Install is symlinks, so edits are live after a new session. Run `/gru selftest` after changing roles, harness recipes or the sandbox, and say in the PR what you ran and what you could not verify.
 
+## Releases
+
+Tag `vX.Y.Z`, then create the GitHub release and use **Generate release notes**: `.github/release.yml` groups merged PRs by label (`breaking`, `feature`, `bug`, `docs`, `tests`). Before publishing, make sure the notes have three parts: **What's new**, **Bug fixes** and **Breaking changes** (say what to do to migrate; write "None" if empty).
+
 ## License
 
 By contributing you agree that your work is released under the [MIT license](LICENSE).
